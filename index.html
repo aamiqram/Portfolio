@@ -1217,6 +1217,157 @@
         font-size: 18px;
       }
 
+      /* Timeline Styles */
+      .timeline {
+        position: relative;
+        padding-left: 20px;
+      }
+
+      .education-item,
+      .experience-item {
+        margin-bottom: 30px;
+        position: relative;
+        padding-left: 20px;
+        border-left: 2px solid var(--cyber-blue);
+      }
+
+      .education-date,
+      .experience-date {
+        color: var(--cyber-blue);
+        font-size: 14px;
+        font-weight: 600;
+        margin-bottom: 8px;
+        font-family: "Orbitron", sans-serif;
+      }
+
+      .education-title,
+      .experience-title {
+        color: var(--cyber-light);
+        font-size: 18px;
+        font-weight: 600;
+        margin-bottom: 8px;
+      }
+
+      .education-institution,
+      .experience-company {
+        color: var(--cyber-orange);
+        font-size: 15px;
+        margin-bottom: 12px;
+        font-weight: 500;
+      }
+
+      .education-description,
+      .experience-description {
+        color: #ccc;
+        font-size: 14px;
+        line-height: 1.6;
+      }
+
+      /* Skills Icons Grid */
+      .skills-icons-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 15px;
+        margin-top: 30px;
+      }
+
+      .skill-icon-item {
+        text-align: center;
+        padding: 20px;
+        background: rgba(255, 255, 255, 0.03);
+        border-radius: 12px;
+        border: 1px solid rgba(255, 255, 255, 0.05);
+        transition: var(--transition-smooth);
+      }
+
+      .skill-icon-item:hover {
+        background: rgba(138, 43, 226, 0.15);
+        border-color: rgba(138, 43, 226, 0.3);
+        transform: translateY(-5px);
+      }
+
+      .skill-icon-item i {
+        font-size: 28px;
+        margin-bottom: 15px;
+        transition: var(--transition-smooth);
+      }
+
+      .skill-icon-item:nth-child(1) i {
+        color: var(--cyber-blue);
+      }
+
+      .skill-icon-item:nth-child(2) i {
+        color: var(--cyber-purple);
+      }
+
+      .skill-icon-item:nth-child(3) i {
+        color: var(--cyber-orange);
+      }
+
+      .skill-icon-text {
+        font-size: 15px;
+        font-weight: 600;
+        color: var(--cyber-light);
+      }
+
+      /* Skill Bars Container */
+      .skill-bars-container {
+        display: grid;
+        gap: 25px;
+      }
+
+      .skill-bar {
+        margin-bottom: 10px;
+      }
+
+      .skill-bar-header {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 10px;
+      }
+
+      .skill-bar-name {
+        color: var(--cyber-light);
+        font-size: 15px;
+        font-weight: 500;
+      }
+
+      .skill-bar-percentage {
+        color: var(--cyber-orange);
+        font-size: 15px;
+        font-weight: 600;
+        font-family: "Orbitron", sans-serif;
+      }
+
+      .skill-bar-track {
+        height: 8px;
+        background: rgba(255, 255, 255, 0.1);
+        border-radius: 4px;
+        overflow: hidden;
+      }
+
+      .skill-bar-progress {
+        height: 100%;
+        border-radius: 4px;
+        position: relative;
+      }
+
+      .skill-bar-progress::after {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(
+          90deg,
+          transparent,
+          rgba(255, 255, 255, 0.3),
+          transparent
+        );
+        animation: shimmer 2s infinite;
+      }
+
       /* Enhanced Skills Section */
       .skills-section {
         background: rgba(10, 10, 15, 0.8);
@@ -2284,6 +2435,87 @@
           font-size: 14px !important;
         }
 
+        /* Skills Icons Grid */
+        .skills-icons-grid {
+          grid-template-columns: 1fr !important;
+          gap: 8px !important;
+          margin-top: 20px !important;
+        }
+
+        .skill-icon-item {
+          padding: 12px 8px !important;
+          border-radius: 8px !important;
+        }
+
+        .skill-icon-item i {
+          font-size: 22px !important;
+          margin-bottom: 8px !important;
+        }
+
+        .skill-icon-text {
+          font-size: 12px !important;
+        }
+
+        /* Timeline */
+        .timeline {
+          padding-left: 10px !important;
+        }
+
+        .education-item,
+        .experience-item {
+          padding: 12px 0 12px 15px !important;
+          margin-bottom: 15px !important;
+          border-left-width: 1px !important;
+        }
+
+        .education-date,
+        .experience-date {
+          font-size: 12px !important;
+          margin-bottom: 5px !important;
+        }
+
+        .education-title,
+        .experience-title {
+          font-size: 14px !important;
+          margin-bottom: 5px !important;
+        }
+
+        .education-institution,
+        .experience-company {
+          font-size: 12px !important;
+          margin-bottom: 8px !important;
+        }
+
+        .education-description,
+        .experience-description {
+          font-size: 11px !important;
+          line-height: 1.4 !important;
+        }
+
+        /* Skill Bars */
+        .skill-bars-container {
+          gap: 15px !important;
+        }
+
+        .skill-bar-header {
+          flex-direction: column !important;
+          gap: 5px !important;
+          align-items: flex-start !important;
+        }
+
+        .skill-bar-name {
+          font-size: 13px !important;
+        }
+
+        .skill-bar-percentage {
+          font-size: 12px !important;
+          align-self: flex-end !important;
+        }
+
+        .skill-bar-track {
+          height: 6px !important;
+        }
+
         /* Skills Section */
         .skills-container {
           grid-template-columns: 1fr !important;
@@ -2725,6 +2957,82 @@
           font-size: 15px !important;
         }
 
+        /* Skills Icons Grid */
+        .skills-icons-grid {
+          grid-template-columns: 1fr !important;
+          gap: 10px !important;
+          margin-top: 25px !important;
+        }
+
+        .skill-icon-item {
+          padding: 15px 10px !important;
+          border-radius: 10px !important;
+        }
+
+        .skill-icon-item i {
+          font-size: 24px !important;
+          margin-bottom: 12px !important;
+        }
+
+        .skill-icon-text {
+          font-size: 13px !important;
+        }
+
+        /* Timeline */
+        .timeline {
+          padding-left: 15px !important;
+        }
+
+        .education-item,
+        .experience-item {
+          padding: 15px 0 15px 18px !important;
+          margin-bottom: 20px !important;
+        }
+
+        .education-date,
+        .experience-date {
+          font-size: 13px !important;
+          margin-bottom: 6px !important;
+        }
+
+        .education-title,
+        .experience-title {
+          font-size: 16px !important;
+          margin-bottom: 6px !important;
+        }
+
+        .education-institution,
+        .experience-company {
+          font-size: 13px !important;
+          margin-bottom: 10px !important;
+        }
+
+        .education-description,
+        .experience-description {
+          font-size: 12px !important;
+          line-height: 1.5 !important;
+        }
+
+        /* Skill Bars */
+        .skill-bars-container {
+          gap: 20px !important;
+        }
+
+        .skill-bar-header {
+          flex-direction: column !important;
+          gap: 6px !important;
+          align-items: flex-start !important;
+        }
+
+        .skill-bar-name {
+          font-size: 14px !important;
+        }
+
+        .skill-bar-percentage {
+          font-size: 13px !important;
+          align-self: flex-end !important;
+        }
+
         /* Skills Section */
         .skills-container {
           grid-template-columns: 1fr !important;
@@ -3022,6 +3330,80 @@
           font-size: 16px !important;
         }
 
+        /* Skills Icons Grid */
+        .skills-icons-grid {
+          grid-template-columns: repeat(2, 1fr) !important;
+          gap: 12px !important;
+          margin-top: 30px !important;
+        }
+
+        .skill-icon-item {
+          padding: 18px 12px !important;
+          border-radius: 12px !important;
+        }
+
+        .skill-icon-item i {
+          font-size: 26px !important;
+          margin-bottom: 14px !important;
+        }
+
+        .skill-icon-text {
+          font-size: 14px !important;
+        }
+
+        /* Timeline */
+        .timeline {
+          padding-left: 20px !important;
+        }
+
+        .education-item,
+        .experience-item {
+          padding: 18px 0 18px 20px !important;
+          margin-bottom: 25px !important;
+        }
+
+        .education-date,
+        .experience-date {
+          font-size: 14px !important;
+          margin-bottom: 8px !important;
+        }
+
+        .education-title,
+        .experience-title {
+          font-size: 17px !important;
+          margin-bottom: 8px !important;
+        }
+
+        .education-institution,
+        .experience-company {
+          font-size: 14px !important;
+          margin-bottom: 12px !important;
+        }
+
+        .education-description,
+        .experience-description {
+          font-size: 13px !important;
+          line-height: 1.6 !important;
+        }
+
+        /* Skill Bars */
+        .skill-bars-container {
+          gap: 22px !important;
+        }
+
+        .skill-bar-header {
+          flex-direction: row !important;
+          align-items: center !important;
+        }
+
+        .skill-bar-name {
+          font-size: 14px !important;
+        }
+
+        .skill-bar-percentage {
+          font-size: 14px !important;
+        }
+
         /* Skills Section */
         .skills-container {
           grid-template-columns: 1fr !important;
@@ -3210,6 +3592,23 @@
         .skill-category,
         .contact-form {
           padding: 30px;
+        }
+
+        /* Skills Icons Grid */
+        .skills-icons-grid {
+          grid-template-columns: repeat(3, 1fr);
+          gap: 15px;
+        }
+
+        /* Timeline */
+        .timeline {
+          padding-left: 25px;
+        }
+
+        .education-item,
+        .experience-item {
+          padding: 20px 0 20px 25px;
+          margin-bottom: 30px;
         }
 
         .skills-grid {
@@ -3480,6 +3879,30 @@
 
         .cyber-button {
           min-width: 140px !important;
+        }
+
+        /* About Section Adjustments */
+        .about-card {
+          padding: 20px !important;
+        }
+
+        .skills-icons-grid {
+          grid-template-columns: repeat(3, 1fr) !important;
+          gap: 10px !important;
+          margin-top: 20px !important;
+        }
+
+        .skill-icon-item {
+          padding: 12px 8px !important;
+        }
+
+        .skill-icon-item i {
+          font-size: 20px !important;
+          margin-bottom: 8px !important;
+        }
+
+        .skill-icon-text {
+          font-size: 12px !important;
         }
       }
 
@@ -3791,100 +4214,18 @@
                 technologies, contributing to open-source, or exploring the
                 latest trends in web development.
               </p>
-              <div
-                style="
-                  display: grid;
-                  grid-template-columns: repeat(3, 1fr);
-                  gap: 15px;
-                  margin-top: 30px;
-                "
-              >
-                <div
-                  style="
-                    text-align: center;
-                    padding: 20px;
-                    background: rgba(255, 255, 255, 0.03);
-                    border-radius: 12px;
-                    border: 1px solid rgba(255, 255, 255, 0.05);
-                    transition: var(--transition-smooth);
-                  "
-                >
-                  <i
-                    class="fas fa-code"
-                    style="
-                      font-size: 28px;
-                      color: var(--cyber-blue);
-                      margin-bottom: 15px;
-                      transition: var(--transition-smooth);
-                    "
-                  ></i>
-                  <div
-                    style="
-                      font-size: 15px;
-                      font-weight: 600;
-                      color: var(--cyber-light);
-                    "
-                  >
-                    MERN Stack
-                  </div>
+              <div class="skills-icons-grid">
+                <div class="skill-icon-item">
+                  <i class="fas fa-code"></i>
+                  <div class="skill-icon-text">MERN Stack</div>
                 </div>
-                <div
-                  style="
-                    text-align: center;
-                    padding: 20px;
-                    background: rgba(255, 255, 255, 0.03);
-                    border-radius: 12px;
-                    border: 1px solid rgba(255, 255, 255, 0.05);
-                    transition: var(--transition-smooth);
-                  "
-                >
-                  <i
-                    class="fas fa-mobile-alt"
-                    style="
-                      font-size: 28px;
-                      color: var(--cyber-purple);
-                      margin-bottom: 15px;
-                      transition: var(--transition-smooth);
-                    "
-                  ></i>
-                  <div
-                    style="
-                      font-size: 15px;
-                      font-weight: 600;
-                      color: var(--cyber-light);
-                    "
-                  >
-                    Responsive
-                  </div>
+                <div class="skill-icon-item">
+                  <i class="fas fa-mobile-alt"></i>
+                  <div class="skill-icon-text">Responsive</div>
                 </div>
-                <div
-                  style="
-                    text-align: center;
-                    padding: 20px;
-                    background: rgba(255, 255, 255, 0.03);
-                    border-radius: 12px;
-                    border: 1px solid rgba(255, 255, 255, 0.05);
-                    transition: var(--transition-smooth);
-                  "
-                >
-                  <i
-                    class="fas fa-lightbulb"
-                    style="
-                      font-size: 28px;
-                      color: var(--cyber-orange);
-                      margin-bottom: 15px;
-                      transition: var(--transition-smooth);
-                    "
-                  ></i>
-                  <div
-                    style="
-                      font-size: 15px;
-                      font-weight: 600;
-                      color: var(--cyber-light);
-                    "
-                  >
-                    Innovation
-                  </div>
+                <div class="skill-icon-item">
+                  <i class="fas fa-lightbulb"></i>
+                  <div class="skill-icon-text">Innovation</div>
                 </div>
               </div>
             </div>
@@ -3954,269 +4295,81 @@
                 <i class="fas fa-chart-line"></i>
                 Skills Overview
               </h3>
-              <div style="display: grid; gap: 25px">
-                <div>
-                  <div
-                    style="
-                      display: flex;
-                      justify-content: space-between;
-                      margin-bottom: 10px;
-                    "
-                  >
-                    <span
-                      style="
-                        color: var(--cyber-light);
-                        font-size: 15px;
-                        font-weight: 500;
-                      "
-                      >MERN Stack</span
-                    >
-                    <span
-                      style="
-                        color: var(--cyber-orange);
-                        font-size: 15px;
-                        font-weight: 600;
-                        font-family: 'Orbitron', sans-serif;
-                      "
-                      >90%</span
-                    >
+              <div class="skill-bars-container">
+                <div class="skill-bar">
+                  <div class="skill-bar-header">
+                    <span class="skill-bar-name">MERN Stack</span>
+                    <span class="skill-bar-percentage">90%</span>
                   </div>
-                  <div
-                    style="
-                      height: 8px;
-                      background: rgba(255, 255, 255, 0.1);
-                      border-radius: 4px;
-                      overflow: hidden;
-                    "
-                  >
+                  <div class="skill-bar-track">
                     <div
+                      class="skill-bar-progress"
                       style="
                         width: 90%;
-                        height: 100%;
                         background: linear-gradient(
                           90deg,
                           var(--cyber-violet),
                           var(--cyber-blue)
                         );
-                        border-radius: 4px;
-                        position: relative;
                       "
-                    >
-                      <div
-                        style="
-                          position: absolute;
-                          top: 0;
-                          left: 0;
-                          width: 100%;
-                          height: 100%;
-                          background: linear-gradient(
-                            90deg,
-                            transparent,
-                            rgba(255, 255, 255, 0.3),
-                            transparent
-                          );
-                          animation: shimmer 2s infinite;
-                        "
-                      ></div>
-                    </div>
+                    ></div>
                   </div>
                 </div>
-                <div>
-                  <div
-                    style="
-                      display: flex;
-                      justify-content: space-between;
-                      margin-bottom: 10px;
-                    "
-                  >
-                    <span
-                      style="
-                        color: var(--cyber-light);
-                        font-size: 15px;
-                        font-weight: 500;
-                      "
-                      >Frontend Development</span
-                    >
-                    <span
-                      style="
-                        color: var(--cyber-orange);
-                        font-size: 15px;
-                        font-weight: 600;
-                        font-family: 'Orbitron', sans-serif;
-                      "
-                      >92%</span
-                    >
+                <div class="skill-bar">
+                  <div class="skill-bar-header">
+                    <span class="skill-bar-name">Frontend Development</span>
+                    <span class="skill-bar-percentage">92%</span>
                   </div>
-                  <div
-                    style="
-                      height: 8px;
-                      background: rgba(255, 255, 255, 0.1);
-                      border-radius: 4px;
-                      overflow: hidden;
-                    "
-                  >
+                  <div class="skill-bar-track">
                     <div
+                      class="skill-bar-progress"
                       style="
                         width: 92%;
-                        height: 100%;
                         background: linear-gradient(
                           90deg,
                           var(--cyber-purple),
                           var(--cyber-pink)
                         );
-                        border-radius: 4px;
-                        position: relative;
                       "
-                    >
-                      <div
-                        style="
-                          position: absolute;
-                          top: 0;
-                          left: 0;
-                          width: 100%;
-                          height: 100%;
-                          background: linear-gradient(
-                            90deg,
-                            transparent,
-                            rgba(255, 255, 255, 0.3),
-                            transparent
-                          );
-                          animation: shimmer 2s infinite;
-                        "
-                      ></div>
-                    </div>
+                    ></div>
                   </div>
                 </div>
-                <div>
-                  <div
-                    style="
-                      display: flex;
-                      justify-content: space-between;
-                      margin-bottom: 10px;
-                    "
-                  >
-                    <span
-                      style="
-                        color: var(--cyber-light);
-                        font-size: 15px;
-                        font-weight: 500;
-                      "
-                      >Backend Development</span
-                    >
-                    <span
-                      style="
-                        color: var(--cyber-orange);
-                        font-size: 15px;
-                        font-weight: 600;
-                        font-family: 'Orbitron', sans-serif;
-                      "
-                      >88%</span
-                    >
+                <div class="skill-bar">
+                  <div class="skill-bar-header">
+                    <span class="skill-bar-name">Backend Development</span>
+                    <span class="skill-bar-percentage">88%</span>
                   </div>
-                  <div
-                    style="
-                      height: 8px;
-                      background: rgba(255, 255, 255, 0.1);
-                      border-radius: 4px;
-                      overflow: hidden;
-                    "
-                  >
+                  <div class="skill-bar-track">
                     <div
+                      class="skill-bar-progress"
                       style="
                         width: 88%;
-                        height: 100%;
                         background: linear-gradient(
                           90deg,
                           var(--cyber-blue),
                           var(--cyber-orange)
                         );
-                        border-radius: 4px;
-                        position: relative;
                       "
-                    >
-                      <div
-                        style="
-                          position: absolute;
-                          top: 0;
-                          left: 0;
-                          width: 100%;
-                          height: 100%;
-                          background: linear-gradient(
-                            90deg,
-                            transparent,
-                            rgba(255, 255, 255, 0.3),
-                            transparent
-                          );
-                          animation: shimmer 2s infinite;
-                        "
-                      ></div>
-                    </div>
+                    ></div>
                   </div>
                 </div>
-                <div>
-                  <div
-                    style="
-                      display: flex;
-                      justify-content: space-between;
-                      margin-bottom: 10px;
-                    "
-                  >
-                    <span
-                      style="
-                        color: var(--cyber-light);
-                        font-size: 15px;
-                        font-weight: 500;
-                      "
-                      >Database & Deployment</span
-                    >
-                    <span
-                      style="
-                        color: var(--cyber-orange);
-                        font-size: 15px;
-                        font-weight: 600;
-                        font-family: 'Orbitron', sans-serif;
-                      "
-                      >85%</span
-                    >
+                <div class="skill-bar">
+                  <div class="skill-bar-header">
+                    <span class="skill-bar-name">Database & Deployment</span>
+                    <span class="skill-bar-percentage">85%</span>
                   </div>
-                  <div
-                    style="
-                      height: 8px;
-                      background: rgba(255, 255, 255, 0.1);
-                      border-radius: 4px;
-                      overflow: hidden;
-                    "
-                  >
+                  <div class="skill-bar-track">
                     <div
+                      class="skill-bar-progress"
                       style="
                         width: 85%;
-                        height: 100%;
                         background: linear-gradient(
                           90deg,
                           var(--cyber-pink),
                           var(--cyber-violet)
                         );
-                        border-radius: 4px;
-                        position: relative;
                       "
-                    >
-                      <div
-                        style="
-                          position: absolute;
-                          top: 0;
-                          left: 0;
-                          width: 100%;
-                          height: 100%;
-                          background: linear-gradient(
-                            90deg,
-                            transparent,
-                            rgba(255, 255, 255, 0.3),
-                            transparent
-                          );
-                          animation: shimmer 2s infinite;
-                        "
-                      ></div>
-                    </div>
+                    ></div>
                   </div>
                 </div>
               </div>
@@ -4757,7 +4910,7 @@
 
         <div class="footer-copyright">
           <p>
-            &copy; 2023 Abu Abdullah Mohammed Iqram. All rights reserved. |
+            &copy; 2026 Abu Abdullah Mohammed Iqram. All rights reserved. |
             Crafted with <i class="fas fa-heart"></i> and
             <i class="fas fa-code"></i>
           </p>
