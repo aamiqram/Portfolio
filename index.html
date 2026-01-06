@@ -20,6 +20,11 @@
       href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700;900&family=Exo+2:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap"
       rel="stylesheet"
     />
+    <!-- EmailJS SDK -->
+    <script
+      type="text/javascript"
+      src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"
+    ></script>
     <style>
       :root {
         /* Enhanced Cyberpunk Color Palette */
@@ -2262,6 +2267,115 @@
         100% {
           transform: translateX(100%);
         }
+      }
+
+      /* Enhanced modal styles for mobile */
+      @media (max-width: 767px) {
+        .modal-container {
+          animation: modalSlideUpMobile 0.4s
+            cubic-bezier(0.175, 0.885, 0.32, 1.275) !important;
+        }
+
+        .modal-header {
+          position: sticky;
+          top: 0;
+          z-index: 10;
+          background: rgba(255, 255, 255, 0.05);
+          backdrop-filter: blur(20px);
+        }
+
+        .modal-content {
+          -webkit-overflow-scrolling: touch;
+          overflow-y: auto;
+          max-height: calc(85vh - 100px);
+          grid-template-columns: 1fr !important;
+          gap: 25px !important;
+          padding: 20px !important;
+        }
+
+        .modal-section h4 {
+          font-size: 16px !important;
+          margin-bottom: 10px !important;
+        }
+
+        .modal-section p {
+          font-size: 14px !important;
+          line-height: 1.5 !important;
+        }
+
+        .tech-stack {
+          justify-content: center !important;
+        }
+
+        .tech-badge {
+          padding: 6px 12px !important;
+          font-size: 12px !important;
+        }
+
+        .project-links {
+          flex-direction: column !important;
+          gap: 10px !important;
+        }
+
+        .project-link {
+          padding: 12px !important;
+          font-size: 14px !important;
+        }
+
+        .modal-image {
+          height: 200px !important;
+        }
+      }
+
+      @media (max-width: 424px) {
+        .modal-title {
+          font-size: 1.3rem !important;
+        }
+
+        .modal-close {
+          width: 35px !important;
+          height: 35px !important;
+          font-size: 18px !important;
+        }
+
+        .modal-image {
+          height: 180px !important;
+        }
+
+        .tech-stack {
+          justify-content: center !important;
+        }
+
+        .modal-content {
+          padding: 15px !important;
+          gap: 20px !important;
+        }
+      }
+
+      @keyframes modalSlideUpMobile {
+        from {
+          opacity: 0;
+          transform: translateY(100px) scale(0.95);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0) scale(1);
+        }
+      }
+
+      /* Custom Notification Styles */
+      .custom-notification {
+        position: fixed;
+        z-index: 10000;
+        display: flex;
+        align-items: center;
+        gap: 15px;
+        transform: translateX(150%);
+        transition: transform 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+        backdrop-filter: blur(10px);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        font-family: "Exo 2", sans-serif;
+        font-weight: 500;
       }
 
       /* ============================================
@@ -4827,6 +4941,7 @@
                 <input
                   type="text"
                   id="name"
+                  name="name"
                   placeholder="Enter your name"
                   required
                 />
@@ -4836,6 +4951,7 @@
                 <input
                   type="email"
                   id="email"
+                  name="email"
                   placeholder="Enter your email"
                   required
                 />
@@ -4845,6 +4961,7 @@
                 <input
                   type="text"
                   id="subject"
+                  name="subject"
                   placeholder="Enter subject"
                   required
                 />
@@ -4853,6 +4970,7 @@
                 <label for="message">Your Message</label>
                 <textarea
                   id="message"
+                  name="message"
                   placeholder="Enter your message"
                   required
                   rows="5"
@@ -5051,6 +5169,9 @@
           document.body.style.overflow = "auto";
         }, 1500);
 
+        // Initialize EmailJS with your Public Key
+        emailjs.init("GU9RUo5M5km9B0D1E");
+
         // Initialize all components
         initTypingAnimation();
         initNavigation();
@@ -5189,31 +5310,67 @@
         });
       }
 
-      // Contact Form
+      // Contact Form with EmailJS Integration
       function initContactForm() {
         const form = document.getElementById("contactForm");
         const formStatus = document.getElementById("formStatus");
+        const submitBtn = form
+          ? form.querySelector('button[type="submit"]')
+          : null;
 
-        if (!form || !formStatus) return;
+        if (!form || !formStatus || !submitBtn) return;
 
-        form.addEventListener("submit", (e) => {
+        form.addEventListener("submit", async (e) => {
           e.preventDefault();
 
-          // Show success message
-          formStatus.textContent =
-            "Message sent successfully! I'll get back to you soon.";
-          formStatus.className = "form-status success";
+          // Show loading state
+          const originalText = submitBtn.innerHTML;
+          submitBtn.innerHTML =
+            '<i class="fas fa-spinner fa-spin"></i><span>Sending...</span>';
+          submitBtn.disabled = true;
 
-          // Hide status after 5 seconds
-          setTimeout(() => {
-            formStatus.className = "form-status";
-          }, 5000);
+          try {
+            // Send email using EmailJS with your credentials
+            const response = await emailjs.sendForm(
+              "service_vcmd25n", // Your Service ID
+              "template_jkwkwuw", // Your Template ID
+              form
+            );
 
-          form.reset();
+            if (response.status === 200) {
+              // Success message
+              formStatus.textContent =
+                "Message sent successfully! I'll get back to you soon.";
+              formStatus.className = "form-status success";
+              showNotification("Message sent successfully!", "success");
+              form.reset();
+            } else {
+              throw new Error("Failed to send message");
+            }
+          } catch (error) {
+            console.error("EmailJS Error:", error);
+            formStatus.textContent =
+              "Failed to send message. Please try again or email me directly at aamiqram24@gmail.com";
+            formStatus.className = "form-status error";
+            showNotification(
+              "Failed to send message. Please try again.",
+              "error"
+            );
+          } finally {
+            // Reset button state
+            submitBtn.innerHTML = originalText;
+            submitBtn.disabled = false;
+
+            // Hide status after 5 seconds
+            setTimeout(() => {
+              formStatus.className = "form-status";
+              formStatus.textContent = "";
+            }, 5000);
+          }
         });
       }
 
-      // Project Modals
+      // Project Modals with enhanced mobile optimization
       function initProjectModals() {
         const modal = document.getElementById("projectModal");
         const modalClose = document.getElementById("modalClose");
@@ -5230,59 +5387,124 @@
 
             if (project) {
               modalTitle.textContent = project.title;
-              modalContent.innerHTML = `
-                <div class="modal-image">
-                  <img src="${project.image}" alt="${project.title}">
-                </div>
-                <div class="modal-details">
-                  <div class="modal-section">
-                    <h4>Project Overview</h4>
-                    <p>${project.description}</p>
+
+              // Check if mobile device for different layout
+              const isMobile = window.innerWidth <= 767;
+
+              if (isMobile) {
+                // Mobile-optimized layout
+                modalContent.innerHTML = `
+                  <div class="modal-image">
+                    <img src="${project.image}" alt="${project.title}">
                   </div>
-                  
-                  <div class="modal-section">
-                    <h4>Technology Stack</h4>
-                    <div class="tech-stack">
-                      ${project.tech
-                        .map(
-                          (tech) => `<span class="tech-badge">${tech}</span>`
-                        )
-                        .join("")}
+                  <div class="modal-details">
+                    <div class="modal-section">
+                      <h4><i class="fas fa-info-circle"></i> Overview</h4>
+                      <p>${project.description}</p>
+                    </div>
+                    
+                    <div class="modal-section">
+                      <h4><i class="fas fa-code"></i> Tech Stack</h4>
+                      <div class="tech-stack">
+                        ${project.tech
+                          .map(
+                            (tech) => `<span class="tech-badge">${tech}</span>`
+                          )
+                          .join("")}
+                      </div>
+                    </div>
+                    
+                    <div class="modal-section">
+                      <h4><i class="fas fa-tasks"></i> Challenges</h4>
+                      <p>${project.challenges}</p>
+                    </div>
+                    
+                    <div class="modal-section">
+                      <h4><i class="fas fa-rocket"></i> Improvements</h4>
+                      <p>${project.improvements}</p>
+                    </div>
+                    
+                    <div class="modal-section">
+                      <h4><i class="fas fa-external-link-alt"></i> Links</h4>
+                      <div class="project-links">
+                        <a href="${
+                          project.liveLink
+                        }" class="project-link" target="_blank">
+                          <i class="fas fa-external-link-alt"></i>
+                          Live Demo
+                        </a>
+                        <a href="${
+                          project.githubLink
+                        }" class="project-link" target="_blank">
+                          <i class="fab fa-github"></i>
+                          GitHub
+                        </a>
+                      </div>
                     </div>
                   </div>
-                  
-                  <div class="modal-section">
-                    <h4>Challenges & Solutions</h4>
-                    <p>${project.challenges}</p>
+                `;
+              } else {
+                // Desktop layout
+                modalContent.innerHTML = `
+                  <div class="modal-image">
+                    <img src="${project.image}" alt="${project.title}">
                   </div>
-                  
-                  <div class="modal-section">
-                    <h4>Future Improvements</h4>
-                    <p>${project.improvements}</p>
-                  </div>
-                  
-                  <div class="modal-section">
-                    <h4>Project Links</h4>
-                    <div class="project-links">
-                      <a href="${
-                        project.liveLink
-                      }" class="project-link" target="_blank">
-                        <i class="fas fa-external-link-alt"></i>
-                        Live Demo
-                      </a>
-                      <a href="${
-                        project.githubLink
-                      }" class="project-link" target="_blank">
-                        <i class="fab fa-github"></i>
-                        GitHub Repo
-                      </a>
+                  <div class="modal-details">
+                    <div class="modal-section">
+                      <h4>Project Overview</h4>
+                      <p>${project.description}</p>
+                    </div>
+                    
+                    <div class="modal-section">
+                      <h4>Technology Stack</h4>
+                      <div class="tech-stack">
+                        ${project.tech
+                          .map(
+                            (tech) => `<span class="tech-badge">${tech}</span>`
+                          )
+                          .join("")}
+                      </div>
+                    </div>
+                    
+                    <div class="modal-section">
+                      <h4>Challenges & Solutions</h4>
+                      <p>${project.challenges}</p>
+                    </div>
+                    
+                    <div class="modal-section">
+                      <h4>Future Improvements</h4>
+                      <p>${project.improvements}</p>
+                    </div>
+                    
+                    <div class="modal-section">
+                      <h4>Project Links</h4>
+                      <div class="project-links">
+                        <a href="${
+                          project.liveLink
+                        }" class="project-link" target="_blank">
+                          <i class="fas fa-external-link-alt"></i>
+                          Live Demo
+                        </a>
+                        <a href="${
+                          project.githubLink
+                        }" class="project-link" target="_blank">
+                          <i class="fab fa-github"></i>
+                          GitHub Repo
+                        </a>
+                      </div>
                     </div>
                   </div>
-                </div>
-              `;
+                `;
+              }
 
               modal.classList.add("active");
               document.body.style.overflow = "hidden";
+
+              // Add animation for mobile
+              if (isMobile) {
+                modal.style.animation =
+                  "modalSlideUpMobile 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275)";
+              }
             }
           });
         });
@@ -5308,6 +5530,33 @@
             document.body.style.overflow = "auto";
           }
         });
+
+        // Close with swipe on mobile
+        let touchStartY = 0;
+        let touchEndY = 0;
+
+        modal.addEventListener(
+          "touchstart",
+          (e) => {
+            touchStartY = e.changedTouches[0].screenY;
+          },
+          { passive: true }
+        );
+
+        modal.addEventListener(
+          "touchend",
+          (e) => {
+            touchEndY = e.changedTouches[0].screenY;
+            const swipeDistance = touchStartY - touchEndY;
+
+            // If swiped down more than 100px on the modal container, close it
+            if (swipeDistance > 100 && window.innerWidth <= 767) {
+              modal.classList.remove("active");
+              document.body.style.overflow = "auto";
+            }
+          },
+          { passive: true }
+        );
       }
 
       // Scroll Animations
@@ -5364,19 +5613,28 @@
 
       // Notification
       function showNotification(message, type = "success") {
+        // Remove existing notification if any
+        const existingNotification = document.querySelector(
+          ".custom-notification"
+        );
+        if (existingNotification) {
+          existingNotification.remove();
+        }
+
         const notification = document.createElement("div");
+        notification.className = "custom-notification";
         notification.style.cssText = `
           position: fixed;
-          top: 100px;
-          right: 20px;
+          top: ${window.innerWidth <= 767 ? "80px" : "100px"};
+          right: ${window.innerWidth <= 767 ? "10px" : "20px"};
           background: ${
             type === "success"
               ? "linear-gradient(45deg, var(--cyber-violet), var(--cyber-blue))"
               : "linear-gradient(45deg, var(--cyber-orange), var(--cyber-pink))"
           };
           color: white;
-          padding: 18px 25px;
-          border-radius: 15px;
+          padding: ${window.innerWidth <= 767 ? "12px 15px" : "18px 25px"};
+          border-radius: ${window.innerWidth <= 767 ? "10px" : "15px"};
           z-index: 10000;
           box-shadow: 0 15px 35px rgba(0, 0, 0, 0.4);
           display: flex;
@@ -5386,16 +5644,32 @@
           transition: transform 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
           backdrop-filter: blur(10px);
           border: 1px solid rgba(255, 255, 255, 0.2);
-          max-width: 350px;
+          max-width: ${
+            window.innerWidth <= 767 ? "calc(100vw - 40px)" : "350px"
+          };
           font-family: 'Exo 2', sans-serif;
           font-weight: 500;
+          font-size: ${window.innerWidth <= 767 ? "14px" : "15px"};
         `;
 
         notification.innerHTML = `
           <i class="fas fa-${
             type === "success" ? "check-circle" : "info-circle"
-          }" style="font-size: 22px;"></i>
-          <div style="font-size: 15px; line-height: 1.4; flex: 1;">${message}</div>
+          }" style="font-size: ${
+          window.innerWidth <= 767 ? "18px" : "22px"
+        };"></i>
+          <div style="flex: 1;">${message}</div>
+          <button class="notification-close" style="
+            background: transparent;
+            border: none;
+            color: white;
+            font-size: 18px;
+            cursor: pointer;
+            padding: 5px;
+            opacity: 0.8;
+          ">
+            <i class="fas fa-times"></i>
+          </button>
         `;
 
         document.body.appendChild(notification);
@@ -5405,24 +5679,26 @@
           notification.style.transform = "translateX(0)";
         }, 10);
 
-        // Remove after 3 seconds
-        setTimeout(() => {
-          notification.style.transform = "translateX(150%)";
-          setTimeout(() => {
-            notification.remove();
-          }, 400);
-        }, 3000);
-      }
+        // Close button
+        notification
+          .querySelector(".notification-close")
+          .addEventListener("click", () => {
+            notification.style.transform = "translateX(150%)";
+            setTimeout(() => {
+              notification.remove();
+            }, 400);
+          });
 
-      // Shimmer animation for skill bars
-      const style = document.createElement("style");
-      style.textContent = `
-        @keyframes shimmer {
-          0% { transform: translateX(-100%); }
-          100% { transform: translateX(100%); }
-        }
-      `;
-      document.head.appendChild(style);
+        // Auto remove after 4 seconds
+        setTimeout(() => {
+          if (notification.parentNode) {
+            notification.style.transform = "translateX(150%)";
+            setTimeout(() => {
+              if (notification.parentNode) notification.remove();
+            }, 400);
+          }
+        }, 4000);
+      }
     </script>
   </body>
 </html>
