@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
@@ -234,7 +234,8 @@
         left: 0;
         width: 100%;
         height: 100%;
-        background: radial-gradient(
+        background:
+          radial-gradient(
             circle at 20% 30%,
             rgba(138, 43, 226, 0.1) 0%,
             transparent 40%
@@ -245,10 +246,8 @@
             transparent 40%
           ),
           linear-gradient(45deg, #0a0a0f 0%, #1a1a2e 100%);
-        background-image: linear-gradient(
-            rgba(0, 255, 255, 0.03) 1px,
-            transparent 1px
-          ),
+        background-image:
+          linear-gradient(rgba(0, 255, 255, 0.03) 1px, transparent 1px),
           linear-gradient(90deg, rgba(0, 255, 255, 0.03) 1px, transparent 1px);
         background-size: 50px 50px;
         z-index: -2;
@@ -354,7 +353,9 @@
         justify-content: center;
         align-items: center;
         z-index: 9999;
-        transition: opacity 0.5s ease, visibility 0.5s ease;
+        transition:
+          opacity 0.5s ease,
+          visibility 0.5s ease;
       }
 
       .preloader.hidden {
@@ -775,311 +776,316 @@
         left: 100%;
       }
 
-      /* Updated Hero Image with Rounded Rectangle and Floating Effect */
+      /* Hero Stats Styles - ADDED */
+      .hero-stats {
+        display: flex;
+        gap: 3rem;
+        margin-top: 3rem;
+        justify-content: flex-start;
+        opacity: 0;
+        transform: translateY(30px);
+        transition:
+          opacity 0.6s ease,
+          transform 0.6s ease;
+      }
+
+      .hero-stats.visible {
+        opacity: 1;
+        transform: translateY(0);
+      }
+
+      .stat {
+        text-align: center;
+        padding: 15px;
+        background: rgba(255, 255, 255, 0.03);
+        border-radius: 15px;
+        border: 1px solid rgba(138, 43, 226, 0.2);
+        transition: var(--transition-smooth);
+        min-width: 120px;
+      }
+
+      .stat:hover {
+        transform: translateY(-5px);
+        border-color: var(--cyber-blue);
+        background: rgba(0, 255, 255, 0.05);
+      }
+
+      .stat-number {
+        font-family: "Orbitron", sans-serif;
+        font-size: 2.5rem;
+        font-weight: 700;
+        color: var(--cyber-blue);
+        margin-bottom: 0.25rem;
+      }
+
+      .stat-label {
+        color: var(--text-muted);
+        font-size: 0.9rem;
+        color: #aaa;
+        font-weight: 500;
+      }
+
+      /* ============================================
+         FIXED HERO IMAGE - FULL IMAGE VISIBLE
+         ============================================ */
+
       .hero-image-container {
         flex: 1;
         display: flex;
-        justify-content: center;
+        justify-content: flex-end;
         align-items: center;
         position: relative;
+        min-height: 0;
       }
 
-      .rounded-profile-wrapper {
+      .home__img {
         position: relative;
-        width: 380px;
-        height: 380px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-      }
-
-      /* Main Rounded Shape */
-      .rounded-shape {
-        position: relative;
-        width: 320px;
-        height: 320px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        animation: float-gentle 6s ease-in-out infinite;
-        transform-style: preserve-3d;
-      }
-
-      /* Rounded Container with Border Radius */
-      .rounded-container {
         width: 100%;
-        height: 100%;
-        background: linear-gradient(
-          135deg,
-          rgba(138, 43, 226, 0.9) 0%,
-          rgba(0, 255, 255, 0.8) 50%,
-          rgba(157, 0, 255, 0.9) 100%
-        );
-        border-radius: 25px;
+        max-width: 500px;
+        height: 500px; 
         display: flex;
-        align-items: center;
         justify-content: center;
-        position: relative;
-        overflow: hidden;
+        align-items: center;
       }
 
-      /* Inner Rounded Image Container */
-      .rounded-inner {
-        width: 92%;
-        height: 92%;
-        position: relative;
-        overflow: hidden;
-        border-radius: 20px;
-        background: rgba(0, 0, 0, 0.3);
-      }
-
-      .rounded-img {
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-        transition: transform 0.5s ease;
-        max-width: 100%;
-        height: auto;
-      }
-
-      .rounded-img:hover {
-        transform: scale(1.05);
-      }
-
-      /* Glowing Border Effect */
-      .rounded-border {
+      /* Blob SVG container - placed BEHIND the image */
+      .home__blob {
         position: absolute;
-        top: -2px;
-        left: -2px;
-        right: -2px;
-        bottom: -2px;
+        width: 100%;
+        height: 100%;
+        fill: var(--cyber-violet);
+        opacity: 0.15;
+        filter: drop-shadow(0 10px 30px rgba(138, 43, 226, 0.3));
+        animation: blob-float 8s ease-in-out infinite;
+        z-index: 1;
+        top: 0;
+        left: 0;
+        transform: scale(
+          1.2
+        ); /* Make blob larger to ensure full coverage behind */
+      }
+
+      @keyframes blob-float {
+        0%,
+        100% {
+          transform: translateY(0) scale(1.2);
+        }
+        33% {
+          transform: translateY(-10px) scale(1.25);
+        }
+        66% {
+          transform: translateY(10px) scale(1.15);
+        }
+      }
+
+      /* Photo container - positioned on top of blob */
+      .home__blob-img-container {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        z-index: 3; /* Higher than blob */
+      }
+
+      .home__blob-img {
+        width: 100%;
+        height: 100%;
+        border-radius: 50% 30% 50% 30% / 50% 30% 70% 50%;
+        object-fit: contain;
+        object-position: center top;
+        border: 3px solid rgba(0, 255, 255, 0.3);
+        box-shadow:
+          0 20px 40px rgba(0, 0, 0, 0.5),
+          inset 0 0 30px rgba(0, 255, 255, 0.2);
+        animation: morphing 12s ease-in-out infinite;
         background: linear-gradient(
           45deg,
-          var(--cyber-violet),
-          var(--cyber-blue),
-          var(--cyber-pink),
-          var(--cyber-purple)
+          rgba(138, 43, 226, 0.1),
+          rgba(0, 255, 255, 0.1)
         );
-        border-radius: 27px;
-        z-index: -1;
-        filter: blur(5px);
-        opacity: 0.6;
-        animation: border-rotate 4s linear infinite;
       }
 
-      /* Subtle Glow */
-      .rounded-glow {
+      @keyframes morphing {
+        0% {
+          border-radius: 50% 30% 50% 30% / 50% 30% 70% 50%;
+        }
+        25% {
+          border-radius: 40% 60% 60% 40% / 70% 50% 50% 30%;
+        }
+        50% {
+          border-radius: 30% 60% 70% 40% / 50% 60% 40% 50%;
+        }
+        75% {
+          border-radius: 60% 40% 30% 70% / 40% 50% 70% 50%;
+        }
+        100% {
+          border-radius: 50% 30% 50% 30% / 50% 30% 70% 50%;
+        }
+      }
+
+      /* Glow effect around photo - matching website colors */
+      .photo-glow {
         position: absolute;
-        width: 110%;
-        height: 110%;
+        width: 95%;
+        height: 95%;
+        border-radius: 50% 30% 50% 30% / 50% 30% 70% 50%;
         background: radial-gradient(
-          circle at 50% 50%,
-          rgba(0, 255, 255, 0.2) 0%,
-          rgba(138, 43, 226, 0.1) 30%,
+          circle at center,
+          rgba(0, 255, 255, 0.15) 0%,
+          rgba(138, 43, 226, 0.1) 40%,
           transparent 70%
         );
-        filter: blur(30px);
-        opacity: 0.4;
-        border-radius: 30px;
+        filter: blur(20px);
+        z-index: 2; /* Between blob and image */
+        animation: glow-pulse 3s ease-in-out infinite alternate;
       }
 
-      /* Corner Accents */
-      .rounded-corners {
+      /* Floating 3D MERN Stack Icons */
+      .floating-icons {
         position: absolute;
         width: 100%;
         height: 100%;
         top: 0;
         left: 0;
+        z-index: 4; /* Highest z-index */
       }
 
-      .corner {
-        position: absolute;
-        width: 20px;
-        height: 20px;
-        background: var(--cyber-blue);
-        opacity: 0.3;
-      }
-
-      .corner-tl {
-        top: 15px;
-        left: 15px;
-        border-top-left-radius: 5px;
-      }
-
-      .corner-tr {
-        top: 15px;
-        right: 15px;
-        border-top-right-radius: 5px;
-      }
-
-      .corner-bl {
-        bottom: 15px;
-        left: 15px;
-        border-bottom-left-radius: 5px;
-      }
-
-      .corner-br {
-        bottom: 15px;
-        right: 15px;
-        border-bottom-right-radius: 5px;
-      }
-
-      /* Floating Elements Around Rounded Shape */
-      .floating-elements {
-        position: absolute;
-        width: 120%;
-        height: 120%;
-        top: -10%;
-        left: -10%;
-      }
-
-      .floating-element {
+      .floating-icon {
         position: absolute;
         width: 60px;
         height: 60px;
-        background: linear-gradient(
-          135deg,
-          rgba(138, 43, 226, 0.2),
-          rgba(0, 255, 255, 0.2)
-        );
-        border-radius: 12px;
+        border-radius: 15px;
+        background: rgba(255, 255, 255, 0.1);
+        backdrop-filter: blur(10px);
+        border: 1px solid rgba(0, 255, 255, 0.3);
         display: flex;
         align-items: center;
         justify-content: center;
-        font-size: 24px;
+        font-size: 28px;
         color: var(--cyber-blue);
-        animation: float-around 8s infinite ease-in-out;
-        border: 1px solid rgba(138, 43, 226, 0.3);
-        backdrop-filter: blur(5px);
+        animation: float-3d 8s ease-in-out infinite;
+        transform-style: preserve-3d;
+        transform: translateZ(20px);
+        box-shadow:
+          0 10px 20px rgba(0, 0, 0, 0.3),
+          inset 0 1px 0 rgba(255, 255, 255, 0.2);
       }
 
-      .floating-element.el1 {
-        top: 0;
-        left: 20%;
+      .floating-icon:nth-child(1) {
+        top: 10%;
+        left: 5%;
         animation-delay: 0s;
         background: linear-gradient(
           135deg,
-          rgba(138, 43, 226, 0.25),
-          rgba(157, 0, 255, 0.25)
+          rgba(138, 43, 226, 0.3),
+          rgba(0, 255, 255, 0.3)
         );
+        transform: translateZ(30px);
       }
 
-      .floating-element.el2 {
-        top: 10%;
-        right: 0;
+      .floating-icon:nth-child(2) {
+        top: 5%;
+        right: 10%;
         animation-delay: 1s;
         background: linear-gradient(
           135deg,
-          rgba(0, 255, 255, 0.25),
-          rgba(138, 43, 255, 0.25)
+          rgba(0, 255, 255, 0.3),
+          rgba(157, 0, 255, 0.3)
         );
+        transform: translateZ(40px);
       }
 
-      .floating-element.el3 {
-        bottom: 20%;
-        left: 0;
+      .floating-icon:nth-child(3) {
+        bottom: 15%;
+        left: 8%;
         animation-delay: 2s;
         background: linear-gradient(
           135deg,
-          rgba(255, 107, 53, 0.25),
-          rgba(138, 43, 226, 0.25)
+          rgba(157, 0, 255, 0.3),
+          rgba(255, 107, 53, 0.3)
         );
+        transform: translateZ(25px);
       }
 
-      .floating-element.el4 {
-        bottom: 0;
-        right: 20%;
+      .floating-icon:nth-child(4) {
+        bottom: 10%;
+        right: 5%;
         animation-delay: 3s;
         background: linear-gradient(
           135deg,
-          rgba(255, 0, 255, 0.25),
-          rgba(0, 255, 255, 0.25)
+          rgba(255, 107, 53, 0.3),
+          rgba(255, 0, 255, 0.3)
         );
+        transform: translateZ(35px);
       }
 
-      /* Animations */
-      @keyframes float-gentle {
+      @keyframes float-3d {
         0%,
         100% {
-          transform: translateY(0) rotateX(0deg) rotateY(0deg);
-        }
-        33% {
-          transform: translateY(-15px) rotateX(2deg) rotateY(2deg);
-        }
-        66% {
-          transform: translateY(-8px) rotateX(-2deg) rotateY(-2deg);
-        }
-      }
-
-      @keyframes border-rotate {
-        0% {
-          background-position: 0% 50%;
-        }
-        50% {
-          background-position: 100% 50%;
-        }
-        100% {
-          background-position: 0% 50%;
-        }
-      }
-
-      @keyframes float-around {
-        0%,
-        100% {
-          transform: translateY(0) translateX(0) rotate(0deg);
+          transform: translateY(0) rotateX(0) rotateY(0) translateZ(20px);
         }
         25% {
-          transform: translateY(-20px) translateX(10px) rotate(5deg);
+          transform: translateY(-20px) rotateX(10deg) rotateY(5deg)
+            translateZ(30px);
         }
         50% {
-          transform: translateY(10px) translateX(-10px) rotate(-5deg);
+          transform: translateY(10px) rotateX(-5deg) rotateY(-10deg)
+            translateZ(25px);
         }
         75% {
-          transform: translateY(-10px) translateX(-5px) rotate(3deg);
+          transform: translateY(-15px) rotateX(5deg) rotateY(-5deg)
+            translateZ(35px);
         }
       }
 
-      /* Shadow for Depth */
-      .rounded-shadow {
+      /* MERN Stack Labels */
+      .mern-label {
         position: absolute;
-        width: 90%;
-        height: 50px;
-        bottom: -20px;
-        left: 5%;
-        background: radial-gradient(
-          ellipse at center,
-          rgba(0, 0, 0, 0.3) 0%,
-          transparent 70%
-        );
-        filter: blur(10px);
-        z-index: -1;
-        opacity: 0.5;
-        animation: shadow-pulse 4s ease-in-out infinite alternate;
+        font-family: "Orbitron", sans-serif;
+        font-size: 12px;
+        font-weight: 600;
+        color: var(--cyber-blue);
+        background: rgba(10, 10, 15, 0.8);
+        padding: 4px 8px;
+        border-radius: 4px;
+        border: 1px solid rgba(0, 255, 255, 0.3);
+        z-index: 5;
+        opacity: 0;
+        transform: translateY(10px);
+        transition: all 0.3s ease;
       }
 
-      @keyframes shadow-pulse {
-        0% {
-          opacity: 0.3;
-          transform: scale(0.95);
-        }
-        100% {
-          opacity: 0.6;
-          transform: scale(1.05);
-        }
+      .floating-icon:hover .mern-label {
+        opacity: 1;
+        transform: translateY(0);
       }
 
-      /* Background Grid for Hero */
-      .bg-grid {
-        position: absolute;
-        width: 100%;
-        height: 100%;
-        background-image: linear-gradient(
-            rgba(0, 255, 255, 0.1) 1px,
-            transparent 1px
-          ),
-          linear-gradient(90deg, rgba(0, 255, 255, 0.1) 1px, transparent 1px);
-        background-size: 50px 50px;
-        opacity: 0.3;
+      .label-mongo {
+        bottom: -25px;
+        left: 50%;
+        transform: translateX(-50%);
+      }
+
+      .label-express {
+        top: -25px;
+        left: 50%;
+        transform: translateX(-50%);
+      }
+
+      .label-react {
+        top: 50%;
+        right: -60px;
+        transform: translateY(-50%);
+      }
+
+      .label-node {
+        top: 50%;
+        left: -50px;
+        transform: translateY(-50%);
       }
 
       /* Enhanced Sections */
@@ -1315,65 +1321,7 @@
         color: var(--cyber-light);
       }
 
-      /* Skill Bars Container */
-      .skill-bars-container {
-        display: grid;
-        gap: 25px;
-      }
-
-      .skill-bar {
-        margin-bottom: 10px;
-      }
-
-      .skill-bar-header {
-        display: flex;
-        justify-content: space-between;
-        margin-bottom: 10px;
-      }
-
-      .skill-bar-name {
-        color: var(--cyber-light);
-        font-size: 15px;
-        font-weight: 500;
-      }
-
-      .skill-bar-percentage {
-        color: var(--cyber-orange);
-        font-size: 15px;
-        font-weight: 600;
-        font-family: "Orbitron", sans-serif;
-      }
-
-      .skill-bar-track {
-        height: 8px;
-        background: rgba(255, 255, 255, 0.1);
-        border-radius: 4px;
-        overflow: hidden;
-      }
-
-      .skill-bar-progress {
-        height: 100%;
-        border-radius: 4px;
-        position: relative;
-      }
-
-      .skill-bar-progress::after {
-        content: "";
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background: linear-gradient(
-          90deg,
-          transparent,
-          rgba(255, 255, 255, 0.3),
-          transparent
-        );
-        animation: shimmer 2s infinite;
-      }
-
-      /* Enhanced Skills Section */
+      /* Enhanced Skills Section with Animated Bars */
       .skills-section {
         background: rgba(10, 10, 15, 0.8);
       }
@@ -1384,7 +1332,7 @@
         gap: 30px;
       }
 
-      .skill-category {
+      .skills-category {
         background: rgba(255, 255, 255, 0.03);
         backdrop-filter: blur(20px);
         border: 1px solid rgba(138, 43, 226, 0.2);
@@ -1395,33 +1343,13 @@
         overflow: hidden;
       }
 
-      .skill-category::before {
-        content: "";
-        position: absolute;
-        top: 0;
-        left: -100%;
-        width: 100%;
-        height: 100%;
-        background: linear-gradient(
-          90deg,
-          transparent,
-          rgba(0, 255, 255, 0.1),
-          transparent
-        );
-        transition: 0.5s;
-      }
-
-      .skill-category:hover::before {
-        left: 100%;
-      }
-
-      .skill-category:hover {
+      .skills-category:hover {
         transform: translateY(-10px);
         border-color: var(--cyber-blue);
         box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
       }
 
-      .category-header {
+      .skill-category-header {
         display: flex;
         align-items: center;
         gap: 20px;
@@ -1471,59 +1399,80 @@
         }
       }
 
-      .category-title {
+      .skills-category h3 {
         font-size: 1.5rem;
         font-weight: 700;
         color: var(--cyber-light);
         font-family: "Orbitron", sans-serif;
       }
 
-      .skills-grid {
-        display: grid;
-        grid-template-columns: repeat(2, 1fr);
-        gap: 20px;
-      }
-
-      .skill-item {
+      .skill-bars {
         display: flex;
-        align-items: center;
-        gap: 15px;
-        padding: 15px;
-        background: rgba(255, 255, 255, 0.02);
-        border-radius: 12px;
-        transition: var(--transition-smooth);
-        border: 1px solid rgba(255, 255, 255, 0.05);
+        flex-direction: column;
+        gap: 25px;
       }
 
-      .skill-item:hover {
-        background: rgba(138, 43, 226, 0.15);
-        transform: translateX(10px);
-        border-color: rgba(138, 43, 226, 0.3);
+      .skill-bar {
+        margin-bottom: 1.5rem;
       }
 
-      .skill-icon {
-        width: 40px;
-        height: 40px;
-        border-radius: 10px;
-        background: rgba(255, 255, 255, 0.1);
+      .skill-info {
         display: flex;
-        align-items: center;
-        justify-content: center;
-        font-size: 20px;
-        color: var(--cyber-blue);
-        transition: var(--transition-smooth);
-      }
-
-      .skill-item:hover .skill-icon {
-        background: var(--cyber-violet);
-        color: white;
-        transform: rotate(15deg);
-      }
-
-      .skill-name {
+        justify-content: space-between;
+        margin-bottom: 0.5rem;
         font-weight: 500;
-        font-size: 15px;
         color: var(--cyber-light);
+      }
+
+      .skill-percent {
+        color: var(--cyber-orange);
+        font-weight: 600;
+        font-family: "Orbitron", sans-serif;
+      }
+
+      .skill-bar-track {
+        height: 8px;
+        background: rgba(255, 255, 255, 0.1);
+        border-radius: 4px;
+        overflow: hidden;
+      }
+
+      .skill-bar-progress {
+        height: 100%;
+        width: 0%;
+        border-radius: 4px;
+        background: linear-gradient(
+          90deg,
+          var(--cyber-violet),
+          var(--cyber-blue)
+        );
+        transition: width 1.5s ease-out;
+        position: relative;
+      }
+
+      .skill-bar-progress::after {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: linear-gradient(
+          90deg,
+          transparent,
+          rgba(255, 255, 255, 0.2),
+          transparent
+        );
+        animation: shimmer 2s infinite;
+      }
+
+      @keyframes shimmer {
+        0% {
+          transform: translateX(-100%);
+        }
+        100% {
+          transform: translateX(100%);
+        }
       }
 
       /* Enhanced Projects Section */
@@ -1649,6 +1598,83 @@
         display: flex;
         justify-content: space-between;
         align-items: center;
+      }
+
+      /* Testimonials Section - ADDED */
+      .testimonials-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+        gap: 30px;
+        margin-top: 50px;
+      }
+
+      .testimonial-card {
+        background: rgba(255, 255, 255, 0.03);
+        backdrop-filter: blur(20px);
+        border: 1px solid rgba(138, 43, 226, 0.2);
+        border-radius: 20px;
+        padding: 35px;
+        transition: var(--transition-smooth);
+        position: relative;
+        overflow: hidden;
+      }
+
+      .testimonial-card:hover {
+        transform: translateY(-10px);
+        border-color: var(--cyber-blue);
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+      }
+
+      .testimonial-content {
+        margin-bottom: 25px;
+        position: relative;
+      }
+
+      .testimonial-content p {
+        color: #ccc;
+        font-size: 16px;
+        line-height: 1.6;
+        font-style: italic;
+        position: relative;
+        padding-left: 25px;
+      }
+
+      .testimonial-content p::before {
+        content: '"';
+        position: absolute;
+        left: 0;
+        top: -10px;
+        font-size: 50px;
+        color: var(--cyber-blue);
+        opacity: 0.3;
+        font-family: serif;
+      }
+
+      .testimonial-author {
+        border-top: 1px solid rgba(255, 255, 255, 0.1);
+        padding-top: 20px;
+      }
+
+      .stars {
+        color: var(--cyber-orange);
+        margin-bottom: 10px;
+        font-size: 16px;
+      }
+
+      .stars i {
+        margin-right: 3px;
+      }
+
+      .testimonial-author h4 {
+        color: var(--cyber-blue);
+        font-size: 18px;
+        margin-bottom: 5px;
+        font-family: "Orbitron", sans-serif;
+      }
+
+      .testimonial-author p {
+        color: #aaa;
+        font-size: 14px;
       }
 
       /* Enhanced Contact Section */
@@ -1954,10 +1980,8 @@
       .footer-grid {
         width: 100%;
         height: 100%;
-        background-image: linear-gradient(
-            rgba(0, 255, 255, 0.1) 1px,
-            transparent 1px
-          ),
+        background-image:
+          linear-gradient(rgba(0, 255, 255, 0.1) 1px, transparent 1px),
           linear-gradient(90deg, rgba(0, 255, 255, 0.1) 1px, transparent 1px);
         background-size: 30px 30px;
       }
@@ -2251,131 +2275,14 @@
       .fade-in {
         opacity: 0;
         transform: translateY(30px);
-        transition: opacity 0.6s ease, transform 0.6s ease;
+        transition:
+          opacity 0.6s ease,
+          transform 0.6s ease;
       }
 
       .fade-in.visible {
         opacity: 1;
         transform: translateY(0);
-      }
-
-      /* Shimmer animation for skill bars */
-      @keyframes shimmer {
-        0% {
-          transform: translateX(-100%);
-        }
-        100% {
-          transform: translateX(100%);
-        }
-      }
-
-      /* Enhanced modal styles for mobile */
-      @media (max-width: 767px) {
-        .modal-container {
-          animation: modalSlideUpMobile 0.4s
-            cubic-bezier(0.175, 0.885, 0.32, 1.275) !important;
-        }
-
-        .modal-header {
-          position: sticky;
-          top: 0;
-          z-index: 10;
-          background: rgba(255, 255, 255, 0.05);
-          backdrop-filter: blur(20px);
-        }
-
-        .modal-content {
-          -webkit-overflow-scrolling: touch;
-          overflow-y: auto;
-          max-height: calc(85vh - 100px);
-          grid-template-columns: 1fr !important;
-          gap: 25px !important;
-          padding: 20px !important;
-        }
-
-        .modal-section h4 {
-          font-size: 16px !important;
-          margin-bottom: 10px !important;
-        }
-
-        .modal-section p {
-          font-size: 14px !important;
-          line-height: 1.5 !important;
-        }
-
-        .tech-stack {
-          justify-content: center !important;
-        }
-
-        .tech-badge {
-          padding: 6px 12px !important;
-          font-size: 12px !important;
-        }
-
-        .project-links {
-          flex-direction: column !important;
-          gap: 10px !important;
-        }
-
-        .project-link {
-          padding: 12px !important;
-          font-size: 14px !important;
-        }
-
-        .modal-image {
-          height: 200px !important;
-        }
-      }
-
-      @media (max-width: 424px) {
-        .modal-title {
-          font-size: 1.3rem !important;
-        }
-
-        .modal-close {
-          width: 35px !important;
-          height: 35px !important;
-          font-size: 18px !important;
-        }
-
-        .modal-image {
-          height: 180px !important;
-        }
-
-        .tech-stack {
-          justify-content: center !important;
-        }
-
-        .modal-content {
-          padding: 15px !important;
-          gap: 20px !important;
-        }
-      }
-
-      @keyframes modalSlideUpMobile {
-        from {
-          opacity: 0;
-          transform: translateY(100px) scale(0.95);
-        }
-        to {
-          opacity: 1;
-          transform: translateY(0) scale(1);
-        }
-      }
-
-      /* Custom Notification Styles */
-      .custom-notification {
-        position: fixed;
-        z-index: 10000;
-        display: flex;
-        align-items: center;
-        gap: 15px;
-        transform: translateX(150%);
-        transition: transform 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
-        backdrop-filter: blur(10px);
-        border: 1px solid rgba(255, 255, 255, 0.2);
-        font-family: "Exo 2", sans-serif;
-        font-weight: 500;
       }
 
       /* ============================================
@@ -2427,26 +2334,19 @@
         }
 
         /* Perfectly Scaled Profile Image */
-        .rounded-profile-wrapper {
-          width: 180px !important;
-          height: 180px !important;
+        .home__img {
+          height: 300px;
         }
 
-        .rounded-shape {
-          width: 150px !important;
-          height: 150px !important;
+        .home__blob-img {
+          width: 85%;
+          height: 85%;
         }
 
-        .rounded-container {
-          border-radius: 12px !important;
-        }
-
-        .rounded-inner {
-          border-radius: 10px !important;
-        }
-
-        .corner {
-          display: none !important;
+        .floating-icon {
+          width: 40px;
+          height: 40px;
+          font-size: 18px;
         }
 
         /* Buttons - Perfect Fit */
@@ -2460,6 +2360,26 @@
         .hero-buttons {
           gap: 10px !important;
           margin-bottom: 25px !important;
+        }
+
+        /* Hero Stats */
+        .hero-stats {
+          flex-direction: column !important;
+          gap: 10px !important;
+          margin-top: 20px !important;
+        }
+
+        .stat {
+          min-width: 100% !important;
+          padding: 10px !important;
+        }
+
+        .stat-number {
+          font-size: 1.8rem !important;
+        }
+
+        .stat-label {
+          font-size: 0.8rem !important;
         }
 
         /* Social Links */
@@ -2606,42 +2526,18 @@
           line-height: 1.4 !important;
         }
 
-        /* Skill Bars */
-        .skill-bars-container {
-          gap: 15px !important;
-        }
-
-        .skill-bar-header {
-          flex-direction: column !important;
-          gap: 5px !important;
-          align-items: flex-start !important;
-        }
-
-        .skill-bar-name {
-          font-size: 13px !important;
-        }
-
-        .skill-bar-percentage {
-          font-size: 12px !important;
-          align-self: flex-end !important;
-        }
-
-        .skill-bar-track {
-          height: 6px !important;
-        }
-
-        /* Skills Section */
+        /* Skills Section with Animated Bars */
         .skills-container {
           grid-template-columns: 1fr !important;
           gap: 15px !important;
         }
 
-        .skill-category {
+        .skills-category {
           padding: 15px 12px !important;
           border-radius: 10px !important;
         }
 
-        .category-header {
+        .skill-category-header {
           flex-direction: column !important;
           gap: 10px !important;
           margin-bottom: 15px !important;
@@ -2654,29 +2550,54 @@
           border-radius: 10px !important;
         }
 
-        .category-title {
+        .skills-category h3 {
           font-size: 1.1rem !important;
         }
 
-        .skills-grid {
-          grid-template-columns: 1fr !important;
-          gap: 10px !important;
+        .skill-bars {
+          gap: 15px !important;
         }
 
-        .skill-item {
-          padding: 8px !important;
-          gap: 10px !important;
+        .skill-info {
+          font-size: 13px !important;
         }
 
-        .skill-icon {
-          width: 28px !important;
-          height: 28px !important;
-          font-size: 14px !important;
-          border-radius: 6px !important;
-        }
-
-        .skill-name {
+        .skill-percent {
           font-size: 12px !important;
+        }
+
+        /* Testimonials Section */
+        .testimonials-grid {
+          grid-template-columns: 1fr !important;
+          gap: 15px !important;
+          margin-top: 30px !important;
+        }
+
+        .testimonial-card {
+          padding: 15px 12px !important;
+          border-radius: 10px !important;
+        }
+
+        .testimonial-content p {
+          font-size: 13px !important;
+          padding-left: 20px !important;
+        }
+
+        .testimonial-content p::before {
+          font-size: 40px !important;
+          top: -5px !important;
+        }
+
+        .testimonial-author h4 {
+          font-size: 15px !important;
+        }
+
+        .testimonial-author p {
+          font-size: 12px !important;
+        }
+
+        .stars {
+          font-size: 14px !important;
         }
 
         /* Projects Section */
@@ -2893,7 +2814,7 @@
         .modal-container,
         .contact-form,
         .about-card,
-        .skill-category {
+        .skills-category {
           backdrop-filter: blur(5px) !important;
           -webkit-backdrop-filter: blur(5px) !important;
         }
@@ -2947,39 +2868,41 @@
           font-size: 11px !important;
         }
 
+        /* Hero Stats */
+        .hero-stats {
+          gap: 1rem !important;
+          margin-top: 2rem !important;
+          justify-content: center !important;
+          flex-wrap: wrap !important;
+        }
+
+        .stat {
+          min-width: 100px !important;
+          padding: 12px !important;
+        }
+
+        .stat-number {
+          font-size: 2rem !important;
+        }
+
+        .stat-label {
+          font-size: 0.85rem !important;
+        }
+
         /* Perfect Profile Image Sizing */
-        .rounded-profile-wrapper {
-          width: 200px !important;
-          height: 200px !important;
-          margin: 0 auto !important;
+        .home__img {
+          height: 300px;
         }
 
-        .rounded-shape {
-          width: 170px !important;
-          height: 170px !important;
+        .home__blob-img {
+          width: 85%;
+          height: 85%;
         }
 
-        .rounded-container {
-          border-radius: 15px !important;
-        }
-
-        .rounded-inner {
-          border-radius: 12px !important;
-        }
-
-        .corner {
-          width: 10px !important;
-          height: 10px !important;
-        }
-
-        .corner-tl,
-        .corner-tr,
-        .corner-bl,
-        .corner-br {
-          top: 8px !important;
-          bottom: 8px !important;
-          left: 8px !important;
-          right: 8px !important;
+        .floating-icon {
+          width: 40px;
+          height: 40px;
+          font-size: 18px;
         }
 
         /* Buttons - Perfect Fit */
@@ -3092,6 +3015,49 @@
           font-size: 13px !important;
         }
 
+        /* Skills Section with Animated Bars */
+        .skills-container {
+          grid-template-columns: 1fr !important;
+          gap: 18px !important;
+        }
+
+        .skills-category {
+          padding: 18px 15px !important;
+          border-radius: 12px !important;
+        }
+
+        .skill-category-header {
+          flex-direction: column !important;
+          gap: 12px !important;
+          margin-bottom: 18px !important;
+        }
+
+        .category-icon {
+          width: 45px !important;
+          height: 45px !important;
+          font-size: 20px !important;
+        }
+
+        .skills-category h3 {
+          font-size: 1.2rem !important;
+        }
+
+        .skill-bars {
+          gap: 18px !important;
+        }
+
+        /* Testimonials Section */
+        .testimonials-grid {
+          grid-template-columns: 1fr !important;
+          gap: 18px !important;
+          margin-top: 35px !important;
+        }
+
+        .testimonial-card {
+          padding: 18px 15px !important;
+          border-radius: 12px !important;
+        }
+
         /* Timeline */
         .timeline {
           padding-left: 15px !important;
@@ -3125,73 +3091,6 @@
         .experience-description {
           font-size: 12px !important;
           line-height: 1.5 !important;
-        }
-
-        /* Skill Bars */
-        .skill-bars-container {
-          gap: 20px !important;
-        }
-
-        .skill-bar-header {
-          flex-direction: column !important;
-          gap: 6px !important;
-          align-items: flex-start !important;
-        }
-
-        .skill-bar-name {
-          font-size: 14px !important;
-        }
-
-        .skill-bar-percentage {
-          font-size: 13px !important;
-          align-self: flex-end !important;
-        }
-
-        /* Skills Section */
-        .skills-container {
-          grid-template-columns: 1fr !important;
-          gap: 18px !important;
-        }
-
-        .skill-category {
-          padding: 18px 15px !important;
-          border-radius: 12px !important;
-        }
-
-        .category-header {
-          flex-direction: column !important;
-          gap: 12px !important;
-          margin-bottom: 18px !important;
-        }
-
-        .category-icon {
-          width: 45px !important;
-          height: 45px !important;
-          font-size: 20px !important;
-        }
-
-        .category-title {
-          font-size: 1.2rem !important;
-        }
-
-        .skills-grid {
-          grid-template-columns: 1fr !important;
-          gap: 12px !important;
-        }
-
-        .skill-item {
-          padding: 10px !important;
-          gap: 12px !important;
-        }
-
-        .skill-icon {
-          width: 32px !important;
-          height: 32px !important;
-          font-size: 15px !important;
-        }
-
-        .skill-name {
-          font-size: 13px !important;
         }
 
         /* Projects Section */
@@ -3338,24 +3237,31 @@
           font-size: 12px !important;
         }
 
+        /* Hero Stats */
+        .hero-stats {
+          gap: 1.5rem !important;
+          justify-content: center !important;
+          flex-wrap: wrap !important;
+        }
+
+        .stat {
+          min-width: 110px !important;
+        }
+
         /* Clean Profile Image Layout */
-        .rounded-profile-wrapper {
-          width: 220px !important;
-          height: 220px !important;
-          margin: 0 auto !important;
+        .home__img {
+          height: 300px;
         }
 
-        .rounded-shape {
-          width: 190px !important;
-          height: 190px !important;
+        .home__blob-img {
+          width: 85%;
+          height: 85%;
         }
 
-        .rounded-container {
-          border-radius: 18px !important;
-        }
-
-        .rounded-inner {
-          border-radius: 14px !important;
+        .floating-icon {
+          width: 40px;
+          height: 40px;
+          font-size: 18px;
         }
 
         /* Buttons - Clean Layout */
@@ -3419,6 +3325,49 @@
           font-size: 0.9rem !important;
           padding: 0 15px !important;
           line-height: 1.5 !important;
+        }
+
+        /* Skills Section with Animated Bars */
+        .skills-container {
+          grid-template-columns: 1fr !important;
+          gap: 22px !important;
+        }
+
+        .skills-category {
+          padding: 22px 18px !important;
+          border-radius: 14px !important;
+        }
+
+        .skill-category-header {
+          flex-direction: column !important;
+          gap: 15px !important;
+          margin-bottom: 22px !important;
+        }
+
+        .category-icon {
+          width: 50px !important;
+          height: 50px !important;
+          font-size: 22px !important;
+        }
+
+        .skills-category h3 {
+          font-size: 1.3rem !important;
+        }
+
+        .skill-bars {
+          gap: 22px !important;
+        }
+
+        /* Testimonials Section */
+        .testimonials-grid {
+          grid-template-columns: 1fr !important;
+          gap: 22px !important;
+          margin-top: 40px !important;
+        }
+
+        .testimonial-card {
+          padding: 22px 18px !important;
+          border-radius: 14px !important;
         }
 
         /* About Section */
@@ -3498,71 +3447,6 @@
         .experience-description {
           font-size: 13px !important;
           line-height: 1.6 !important;
-        }
-
-        /* Skill Bars */
-        .skill-bars-container {
-          gap: 22px !important;
-        }
-
-        .skill-bar-header {
-          flex-direction: row !important;
-          align-items: center !important;
-        }
-
-        .skill-bar-name {
-          font-size: 14px !important;
-        }
-
-        .skill-bar-percentage {
-          font-size: 14px !important;
-        }
-
-        /* Skills Section */
-        .skills-container {
-          grid-template-columns: 1fr !important;
-          gap: 22px !important;
-        }
-
-        .skill-category {
-          padding: 22px 18px !important;
-          border-radius: 14px !important;
-        }
-
-        .category-header {
-          flex-direction: column !important;
-          gap: 15px !important;
-          margin-bottom: 22px !important;
-        }
-
-        .category-icon {
-          width: 50px !important;
-          height: 50px !important;
-          font-size: 22px !important;
-        }
-
-        .category-title {
-          font-size: 1.3rem !important;
-        }
-
-        .skills-grid {
-          grid-template-columns: 1fr !important;
-          gap: 15px !important;
-        }
-
-        .skill-item {
-          padding: 12px !important;
-          gap: 12px !important;
-        }
-
-        .skill-icon {
-          width: 36px !important;
-          height: 36px !important;
-          font-size: 16px !important;
-        }
-
-        .skill-name {
-          font-size: 14px !important;
         }
 
         /* Projects Section */
@@ -3649,14 +3533,23 @@
           font-size: 1rem;
         }
 
-        .rounded-profile-wrapper {
-          width: 280px;
-          height: 280px;
+        /* Hero Stats */
+        .hero-stats {
+          justify-content: center;
+          gap: 2rem;
         }
 
-        .rounded-shape {
-          width: 240px;
-          height: 240px;
+        .hero-image-container {
+          height: 350px;
+        }
+
+        .home__img {
+          height: 350px;
+        }
+
+        .home__blob-img {
+          width: 90%;
+          height: 90%;
         }
 
         .hero-buttons {
@@ -3702,8 +3595,15 @@
           font-size: 2.5rem;
         }
 
+        /* Testimonials */
+        .testimonials-grid {
+          grid-template-columns: 1fr;
+          gap: 25px;
+        }
+
         .about-card,
-        .skill-category,
+        .skills-category,
+        .testimonial-card,
         .contact-form {
           padding: 30px;
         }
@@ -3723,10 +3623,6 @@
         .experience-item {
           padding: 20px 0 20px 25px;
           margin-bottom: 30px;
-        }
-
-        .skills-grid {
-          grid-template-columns: 1fr;
         }
 
         .projects-grid {
@@ -3857,14 +3753,19 @@
           margin-right: auto;
         }
 
-        .rounded-profile-wrapper {
-          width: 320px;
-          height: 320px;
+        /* Hero Stats */
+        .hero-stats {
+          justify-content: center;
         }
 
-        .rounded-shape {
-          width: 280px;
-          height: 280px;
+        .home__img {
+          height: 400px;
+          margin: 0 auto;
+        }
+
+        /* Testimonials */
+        .testimonials-grid {
+          grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
         }
 
         /* Grid Layouts */
@@ -3905,10 +3806,30 @@
           font-size: 15px;
         }
 
-        .floating-element {
+        .floating-icon {
           width: 50px;
           height: 50px;
-          font-size: 20px;
+          font-size: 22px;
+        }
+
+        .floating-icon:nth-child(1) {
+          top: 5%;
+          left: 5%;
+        }
+
+        .floating-icon:nth-child(2) {
+          top: 5%;
+          right: 5%;
+        }
+
+        .floating-icon:nth-child(3) {
+          bottom: 10%;
+          left: 5%;
+        }
+
+        .floating-icon:nth-child(4) {
+          bottom: 10%;
+          right: 5%;
         }
       }
 
@@ -3927,14 +3848,8 @@
           font-size: 1.6rem;
         }
 
-        .rounded-profile-wrapper {
-          width: 360px;
-          height: 360px;
-        }
-
-        .rounded-shape {
-          width: 300px;
-          height: 300px;
+        .hero-image-container {
+          justify-content: center;
         }
 
         .hero-description {
@@ -3963,14 +3878,13 @@
           flex: 0 0 150px;
         }
 
-        .rounded-profile-wrapper {
-          width: 150px !important;
-          height: 150px !important;
+        /* Hero Stats */
+        .hero-stats {
+          display: none !important;
         }
 
-        .rounded-shape {
-          width: 130px !important;
-          height: 130px !important;
+        .hero-image-container {
+          justify-content: center;
         }
 
         .hero-title {
@@ -4039,8 +3953,8 @@
         }
 
         /* Optimize floating animations */
-        .rounded-shape,
-        .floating-element {
+        .home__blob-img,
+        .floating-icon {
           animation-duration: 8s !important;
         }
       }
@@ -4082,7 +3996,7 @@
         .contact-form::before,
         .contact-item::before,
         .about-card::before,
-        .skill-category::before,
+        .skills-category::before,
         .footer-social,
         .footer-background {
           display: none !important;
@@ -4147,6 +4061,7 @@
           <li><a href="#about" class="nav-link">About</a></li>
           <li><a href="#skills" class="nav-link">Skills</a></li>
           <li><a href="#projects" class="nav-link">Projects</a></li>
+          <li><a href="#testimonials" class="nav-link">Testimonials</a></li>
           <li><a href="#contact" class="nav-link">Contact</a></li>
         </ul>
         <div class="nav-actions">
@@ -4163,6 +4078,7 @@
       <a href="#about" class="mobile-nav-link">About</a>
       <a href="#skills" class="mobile-nav-link">Skills</a>
       <a href="#projects" class="mobile-nav-link">Projects</a>
+      <a href="#testimonials" class="mobile-nav-link">Testimonials</a>
       <a href="#contact" class="mobile-nav-link">Contact</a>
     </div>
 
@@ -4204,6 +4120,16 @@
               <i class="fas fa-eye"></i>
               <span>View Projects</span>
             </a>
+
+            <!-- Added Download Resume Button -->
+            <a
+              href="./ABU ABDULLAH MOHAMMED IQRAM.pdf"
+              download
+              class="cyber-button secondary-btn"
+            >
+              <i class="fas fa-download"></i>
+              <span>Download Resume</span>
+            </a>
           </div>
 
           <div class="social-links">
@@ -4236,56 +4162,75 @@
               <div class="link-glow"></div>
             </a>
           </div>
+
+          <!-- Added Hero Stats -->
+          <div class="hero-stats fade-in">
+            <div class="stat">
+              <div class="stat-number" data-count="10">0</div>
+              <div class="stat-label">Projects</div>
+            </div>
+            <div class="stat">
+              <div class="stat-number" data-count="100">0</div>
+              <div class="stat-label">Success Rate</div>
+            </div>
+            <div class="stat">
+              <div class="stat-number" data-count="5">0</div>
+              <div class="stat-label">Client Rating</div>
+            </div>
+          </div>
         </div>
 
-        <!-- Updated Rounded Rectangle Hero Image -->
+        <!-- FIXED: Hero Image with Full Image Visible -->
         <div class="hero-image-container">
-          <div class="rounded-profile-wrapper">
-            <!-- Shadow for depth -->
-            <div class="rounded-shadow"></div>
+          <div class="home__img">
+            <!-- Blob shape in the background - BEHIND the image -->
+            <svg
+              class="home__blob"
+              viewBox="0 0 479 467"
+              xmlns="http://www.w3.org/2000/svg"
+              xmlns:xlink="http://www.w3.org/1999/xlink"
+            >
+              <mask id="mask0" mask-type="alpha">
+                <path
+                  d="M9.19024 145.964C34.0253 76.5814 114.865 54.7299 184.111 29.4823C245.804 6.98884 311.86 -14.9503 370.735 14.143C431.207 44.026 467.948 107.508 477.191 174.311C485.897 237.229 454.931 294.377 416.506 344.954C373.74 401.245 326.068 462.801 255.442 466.189C179.416 469.835 111.552 422.137 65.1576 361.805C17.4835 299.81 -17.1617 219.583 9.19024 145.964Z"
+                />
+              </mask>
+              <g mask="url(#mask0)">
+                <path
+                  d="M9.19024 145.964C34.0253 76.5814 114.865 54.7299 184.111 29.4823C245.804 6.98884 311.86 -14.9503 370.735 14.143C431.207 44.026 467.948 107.508 477.191 174.311C485.897 237.229 454.931 294.377 416.506 344.954C373.74 401.245 326.068 462.801 255.442 466.189C179.416 469.835 111.552 422.137 65.1576 361.805C17.4835 299.81 -17.1617 219.583 9.19024 145.964Z"
+                />
+              </g>
+            </svg>
 
-            <!-- Main rounded shape -->
-            <div class="rounded-shape">
-              <!-- Glowing border -->
-              <div class="rounded-border"></div>
+            <!-- Photo glow effect -->
+            <div class="photo-glow"></div>
 
-              <!-- Main rounded container -->
-              <div class="rounded-container">
-                <!-- Inner image container -->
-                <div class="rounded-inner">
-                  <img
-                    src="https://i.ibb.co/Txwb0DTj/iqram.jpg"
-                    alt="Abu Abdullah Mohammed Iqram"
-                    class="rounded-img"
-                  />
-                </div>
-              </div>
-
-              <!-- Corner accents -->
-              <div class="rounded-corners">
-                <div class="corner corner-tl"></div>
-                <div class="corner corner-tr"></div>
-                <div class="corner corner-bl"></div>
-                <div class="corner corner-br"></div>
-              </div>
-
-              <!-- Subtle glow -->
-              <div class="rounded-glow"></div>
+            <!-- Your photo in the front - Full image visible -->
+            <div class="home__blob-img-container">
+              <img
+                src="https://i.ibb.co.com/nFCXN3W/icon-img.png"
+                alt="Abu Abdullah Mohammed Iqram"
+                class="home__blob-img"
+              />
             </div>
 
-            <!-- Floating elements around the rounded shape -->
-            <div class="floating-elements">
-              <div class="floating-element el1">
+            <!-- Floating 3D MERN Stack Icons -->
+            <div class="floating-icons">
+              <div class="floating-icon">
                 <i class="fab fa-react"></i>
+                <span class="mern-label label-react">React</span>
               </div>
-              <div class="floating-element el2">
-                <i class="fab fa-js"></i>
+              <div class="floating-icon">
+                <i class="fab fa-node-js"></i>
+                <span class="mern-label label-node">Node.js</span>
               </div>
-              <div class="floating-element el3">
-                <i class="fab fa-node"></i>
-              </div>
-              <div class="floating-element el4">
+              <div class="floating-icon">
                 <i class="fas fa-database"></i>
+                <span class="mern-label label-mongo">MongoDB</span>
+              </div>
+              <div class="floating-icon">
+                <i class="fas fa-server"></i>
+                <span class="mern-label label-express">Express</span>
               </div>
             </div>
           </div>
@@ -4508,143 +4453,146 @@
           </p>
         </div>
         <div class="skills-container">
-          <div class="skill-category fade-in">
-            <div class="category-header">
+          <!-- Frontend Mastery -->
+          <div class="skills-category fade-in">
+            <div class="skill-category-header">
               <div class="category-icon">
                 <i class="fab fa-react"></i>
               </div>
-              <h3 class="category-title">Frontend</h3>
+              <h3>Frontend Mastery</h3>
             </div>
-            <div class="skills-grid">
-              <div class="skill-item">
-                <div class="skill-icon">
-                  <i class="fab fa-react"></i>
+            <div class="skill-bars">
+              <div class="skill-bar">
+                <div class="skill-info">
+                  <span>React / Next.js</span>
+                  <span class="skill-percent">90%</span>
                 </div>
-                <span class="skill-name">React.js</span>
+                <div class="skill-bar-track">
+                  <div class="skill-bar-progress" data-width="90"></div>
+                </div>
               </div>
-              <div class="skill-item">
-                <div class="skill-icon">
-                  <i class="fab fa-js"></i>
+              <div class="skill-bar">
+                <div class="skill-info">
+                  <span>JavaScript (ES6+)</span>
+                  <span class="skill-percent">95%</span>
                 </div>
-                <span class="skill-name">JavaScript (ES6+)</span>
+                <div class="skill-bar-track">
+                  <div class="skill-bar-progress" data-width="95"></div>
+                </div>
               </div>
-              <div class="skill-item">
-                <div class="skill-icon">
-                  <i class="fab fa-html5"></i>
+              <div class="skill-bar">
+                <div class="skill-info">
+                  <span>HTML5/CSS3</span>
+                  <span class="skill-percent">92%</span>
                 </div>
-                <span class="skill-name">HTML5/CSS3</span>
+                <div class="skill-bar-track">
+                  <div class="skill-bar-progress" data-width="92"></div>
+                </div>
               </div>
-              <div class="skill-item">
-                <div class="skill-icon">
-                  <i class="fab fa-css3-alt"></i>
+              <div class="skill-bar">
+                <div class="skill-info">
+                  <span>Tailwind CSS</span>
+                  <span class="skill-percent">88%</span>
                 </div>
-                <span class="skill-name">Tailwind CSS</span>
-              </div>
-              <div class="skill-item">
-                <div class="skill-icon">
-                  <i class="fas fa-bolt"></i>
+                <div class="skill-bar-track">
+                  <div class="skill-bar-progress" data-width="88"></div>
                 </div>
-                <span class="skill-name">Redux</span>
-              </div>
-              <div class="skill-item">
-                <div class="skill-icon">
-                  <i class="fab fa-sass"></i>
-                </div>
-                <span class="skill-name">SASS/SCSS</span>
               </div>
             </div>
           </div>
 
-          <div class="skill-category fade-in">
-            <div class="category-header">
+          <!-- Backend Development -->
+          <div class="skills-category fade-in">
+            <div class="skill-category-header">
               <div class="category-icon">
                 <i class="fab fa-node-js"></i>
               </div>
-              <h3 class="category-title">Backend</h3>
+              <h3>Backend Development</h3>
             </div>
-            <div class="skills-grid">
-              <div class="skill-item">
-                <div class="skill-icon">
-                  <i class="fab fa-node-js"></i>
+            <div class="skill-bars">
+              <div class="skill-bar">
+                <div class="skill-info">
+                  <span>Node.js & Express</span>
+                  <span class="skill-percent">88%</span>
                 </div>
-                <span class="skill-name">Node.js</span>
+                <div class="skill-bar-track">
+                  <div class="skill-bar-progress" data-width="88"></div>
+                </div>
               </div>
-              <div class="skill-item">
-                <div class="skill-icon">
-                  <i class="fas fa-server"></i>
+              <div class="skill-bar">
+                <div class="skill-info">
+                  <span>MongoDB & Mongoose</span>
+                  <span class="skill-percent">85%</span>
                 </div>
-                <span class="skill-name">Express.js</span>
+                <div class="skill-bar-track">
+                  <div class="skill-bar-progress" data-width="85"></div>
+                </div>
               </div>
-              <div class="skill-item">
-                <div class="skill-icon">
-                  <i class="fas fa-database"></i>
+              <div class="skill-bar">
+                <div class="skill-info">
+                  <span>RESTful APIs</span>
+                  <span class="skill-percent">90%</span>
                 </div>
-                <span class="skill-name">MongoDB</span>
+                <div class="skill-bar-track">
+                  <div class="skill-bar-progress" data-width="90"></div>
+                </div>
               </div>
-              <div class="skill-item">
-                <div class="skill-icon">
-                  <i class="fas fa-leaf"></i>
+              <div class="skill-bar">
+                <div class="skill-info">
+                  <span>Authentication (JWT)</span>
+                  <span class="skill-percent">87%</span>
                 </div>
-                <span class="skill-name">Mongoose</span>
-              </div>
-              <div class="skill-item">
-                <div class="skill-icon">
-                  <i class="fas fa-fire"></i>
+                <div class="skill-bar-track">
+                  <div class="skill-bar-progress" data-width="87"></div>
                 </div>
-                <span class="skill-name">Firebase</span>
-              </div>
-              <div class="skill-item">
-                <div class="skill-icon">
-                  <i class="fas fa-cloud"></i>
-                </div>
-                <span class="skill-name">REST APIs</span>
               </div>
             </div>
           </div>
 
-          <div class="skill-category fade-in">
-            <div class="category-header">
+          <!-- DevOps & Tools -->
+          <div class="skills-category fade-in">
+            <div class="skill-category-header">
               <div class="category-icon">
                 <i class="fas fa-tools"></i>
               </div>
-              <h3 class="category-title">Tools & Others</h3>
+              <h3>DevOps & Tools</h3>
             </div>
-            <div class="skills-grid">
-              <div class="skill-item">
-                <div class="skill-icon">
-                  <i class="fab fa-git-alt"></i>
+            <div class="skill-bars">
+              <div class="skill-bar">
+                <div class="skill-info">
+                  <span>Git & GitHub</span>
+                  <span class="skill-percent">92%</span>
                 </div>
-                <span class="skill-name">Git/GitHub</span>
+                <div class="skill-bar-track">
+                  <div class="skill-bar-progress" data-width="92"></div>
+                </div>
               </div>
-              <div class="skill-item">
-                <div class="skill-icon">
-                  <i class="fas fa-paint-brush"></i>
+              <div class="skill-bar">
+                <div class="skill-info">
+                  <span>Firebase</span>
+                  <span class="skill-percent">85%</span>
                 </div>
-                <span class="skill-name">Figma</span>
+                <div class="skill-bar-track">
+                  <div class="skill-bar-progress" data-width="85"></div>
+                </div>
               </div>
-              <div class="skill-item">
-                <div class="skill-icon">
-                  <i class="fas fa-rocket"></i>
+              <div class="skill-bar">
+                <div class="skill-info">
+                  <span>VS Code</span>
+                  <span class="skill-percent">95%</span>
                 </div>
-                <span class="skill-name">Vercel/Netlify</span>
+                <div class="skill-bar-track">
+                  <div class="skill-bar-progress" data-width="95"></div>
+                </div>
               </div>
-              <div class="skill-item">
-                <div class="skill-icon">
-                  <i class="fas fa-terminal"></i>
+              <div class="skill-bar">
+                <div class="skill-info">
+                  <span>Vercel/Netlify</span>
+                  <span class="skill-percent">90%</span>
                 </div>
-                <span class="skill-name">VS Code</span>
-              </div>
-              <div class="skill-item">
-                <div class="skill-icon">
-                  <i class="fas fa-cube"></i>
+                <div class="skill-bar-track">
+                  <div class="skill-bar-progress" data-width="90"></div>
                 </div>
-                <span class="skill-name">JWT</span>
-              </div>
-              <div class="skill-item">
-                <div class="skill-icon">
-                  <i class="fas fa-shield-alt"></i>
-                </div>
-                <span class="skill-name">Security</span>
               </div>
             </div>
           </div>
@@ -4676,7 +4624,7 @@
             <div class="project-content">
               <div class="project-header">
                 <h3 class="project-title">Local Chef Bazaar</h3>
-                <div class="project-status">Live</div>
+                <div class="project-status">Full-Stack</div>
               </div>
               <p class="project-description">
                 A platform connecting local chefs with food enthusiasts.
@@ -4729,7 +4677,7 @@
             <div class="project-content">
               <div class="project-header">
                 <h3 class="project-title">FinEase</h3>
-                <div class="project-status">Live</div>
+                <div class="project-status">Full-Stack</div>
               </div>
               <p class="project-description">
                 Financial management application with expense tracking, budget
@@ -4781,7 +4729,7 @@
             <div class="project-content">
               <div class="project-header">
                 <h3 class="project-title">Firesheild Game Library</h3>
-                <div class="project-status">Live</div>
+                <div class="project-status">Full-Stack</div>
               </div>
               <p class="project-description">
                 Gaming platform featuring game library, user profiles, game
@@ -4833,7 +4781,7 @@
             <div class="project-content">
               <div class="project-header">
                 <h3 class="project-title">Prolific App Devs</h3>
-                <div class="project-status">Live</div>
+                <div class="project-status">Frontend</div>
               </div>
               <p class="project-description">
                 Developer agency website showcasing services, portfolio
@@ -4879,12 +4827,82 @@
       </div>
     </section>
 
+    <!-- Testimonials Section - ADDED -->
+    <section id="testimonials" class="section">
+      <div class="section-container">
+        <div class="section-header">
+          <h2 class="section-title">
+            <span class="title-number">04</span>
+            Client Testimonials
+          </h2>
+          <div class="section-line"></div>
+          <p class="section-subtitle">What people say about working with me.</p>
+        </div>
+        <div class="testimonials-grid">
+          <div class="testimonial-card glassmorphism fade-in">
+            <div class="testimonial-content">
+              <p>
+                "Iqram delivered our platform ahead of schedule. His attention
+                to detail and problem-solving skills are exceptional."
+              </p>
+            </div>
+            <div class="testimonial-author">
+              <div class="stars">
+                <i class="fas fa-star"></i><i class="fas fa-star"></i
+                ><i class="fas fa-star"></i><i class="fas fa-star"></i
+                ><i class="fas fa-star"></i>
+              </div>
+              <h4>Alex Johnson</h4>
+              <p>Project Manager, HealthTech</p>
+            </div>
+          </div>
+
+          <div class="testimonial-card glassmorphism fade-in">
+            <div class="testimonial-content">
+              <p>
+                "Working with Iqram was a game-changer for our startup. He
+                transformed our complex requirements into a smooth,
+                user-friendly application."
+              </p>
+            </div>
+            <div class="testimonial-author">
+              <div class="stars">
+                <i class="fas fa-star"></i><i class="fas fa-star"></i
+                ><i class="fas fa-star"></i><i class="fas fa-star"></i
+                ><i class="fas fa-star-half-alt"></i>
+              </div>
+              <h4>Sarah Williams</h4>
+              <p>CEO, TechStart Inc.</p>
+            </div>
+          </div>
+
+          <div class="testimonial-card glassmorphism fade-in">
+            <div class="testimonial-content">
+              <p>
+                "His communication was excellent throughout the project. The
+                code quality and documentation were beyond our expectations."
+              </p>
+            </div>
+            <div class="testimonial-author">
+              <div class="stars">
+                <i class="fas fa-star"></i><i class="fas fa-star"></i
+                ><i class="fas fa-star"></i><i class="fas fa-star"></i
+                ><i class="fas fa-star"></i>
+              </div>
+              <h4>Michael Chen</h4>
+              <p>CTO, FinanceCorp</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
     <!-- Contact Section -->
     <section id="contact">
       <div class="section-container">
         <div class="section-header">
           <h2 class="section-title">
-            <span class="title-number">04</span>
+            <span class="title-number">05</span>
             Get In Touch
           </h2>
           <div class="section-line"></div>
@@ -5005,6 +5023,7 @@
           <a href="#about">About</a>
           <a href="#skills">Skills</a>
           <a href="#projects">Projects</a>
+          <a href="#testimonials">Testimonials</a>
           <a href="#contact">Contact</a>
         </div>
 
@@ -5179,6 +5198,8 @@
         initProjectModals();
         initScrollAnimations();
         initTouchEvents();
+        initCounterAnimation();
+        initSkillBarAnimation();
       });
 
       // Typing Animation
@@ -5220,11 +5241,67 @@
         setTimeout(typeText, 1600);
       }
 
+      // Animated Counting Numbers for Stats - ADDED
+      function initCounterAnimation() {
+        const counters = document.querySelectorAll(".stat-number");
+        const speed = 200; // Lower = faster
+
+        counters.forEach((counter) => {
+          const target = +counter.getAttribute("data-count");
+          const count = () => {
+            const current = +counter.innerText;
+            const increment = Math.ceil(target / speed);
+
+            if (current < target) {
+              counter.innerText = Math.ceil(current + increment);
+              setTimeout(count, 20);
+            } else {
+              counter.innerText = target;
+            }
+          };
+
+          // Start counting when element is in view
+          const observer = new IntersectionObserver(
+            (entries) => {
+              entries.forEach((entry) => {
+                if (entry.isIntersecting) {
+                  count();
+                  observer.unobserve(entry.target);
+                }
+              });
+            },
+            { threshold: 0.5 },
+          );
+
+          observer.observe(counter);
+        });
+      }
+
+      // Animate Skill Bars on Scroll - ADDED
+      function initSkillBarAnimation() {
+        const skillBars = document.querySelectorAll(".skill-bar-progress");
+
+        const observer = new IntersectionObserver(
+          (entries) => {
+            entries.forEach((entry) => {
+              if (entry.isIntersecting) {
+                const width = entry.target.getAttribute("data-width");
+                entry.target.style.width = width + "%";
+                observer.unobserve(entry.target);
+              }
+            });
+          },
+          { threshold: 0.5 },
+        );
+
+        skillBars.forEach((bar) => observer.observe(bar));
+      }
+
       // Navigation
       function initNavigation() {
         const navbar = document.getElementById("navbar");
         const navLinks = document.querySelectorAll(
-          ".nav-link, .mobile-nav-link"
+          ".nav-link, .mobile-nav-link",
         );
         const mobileMenuToggle = document.getElementById("mobileMenuToggle");
         const mobileMenu = document.getElementById("mobileMenu");
@@ -5334,7 +5411,7 @@
             const response = await emailjs.sendForm(
               "service_vcmd25n", // Your Service ID
               "template_jkwkwuw", // Your Template ID
-              form
+              form,
             );
 
             if (response.status === 200) {
@@ -5354,7 +5431,7 @@
             formStatus.className = "form-status error";
             showNotification(
               "Failed to send message. Please try again.",
-              "error"
+              "error",
             );
           } finally {
             // Reset button state
@@ -5408,7 +5485,7 @@
                       <div class="tech-stack">
                         ${project.tech
                           .map(
-                            (tech) => `<span class="tech-badge">${tech}</span>`
+                            (tech) => `<span class="tech-badge">${tech}</span>`,
                           )
                           .join("")}
                       </div>
@@ -5460,7 +5537,7 @@
                       <div class="tech-stack">
                         ${project.tech
                           .map(
-                            (tech) => `<span class="tech-badge">${tech}</span>`
+                            (tech) => `<span class="tech-badge">${tech}</span>`,
                           )
                           .join("")}
                       </div>
@@ -5540,7 +5617,7 @@
           (e) => {
             touchStartY = e.changedTouches[0].screenY;
           },
-          { passive: true }
+          { passive: true },
         );
 
         modal.addEventListener(
@@ -5555,7 +5632,7 @@
               document.body.style.overflow = "auto";
             }
           },
-          { passive: true }
+          { passive: true },
         );
       }
 
@@ -5572,7 +5649,7 @@
           {
             threshold: 0.1,
             rootMargin: "0px 0px -50px 0px",
-          }
+          },
         );
 
         // Observe fade-in elements
@@ -5594,7 +5671,7 @@
             }
             lastTouchEnd = now;
           },
-          false
+          false,
         );
 
         // Better touch handling for buttons
@@ -5615,7 +5692,7 @@
       function showNotification(message, type = "success") {
         // Remove existing notification if any
         const existingNotification = document.querySelector(
-          ".custom-notification"
+          ".custom-notification",
         );
         if (existingNotification) {
           existingNotification.remove();
@@ -5656,8 +5733,8 @@
           <i class="fas fa-${
             type === "success" ? "check-circle" : "info-circle"
           }" style="font-size: ${
-          window.innerWidth <= 767 ? "18px" : "22px"
-        };"></i>
+            window.innerWidth <= 767 ? "18px" : "22px"
+          };"></i>
           <div style="flex: 1;">${message}</div>
           <button class="notification-close" style="
             background: transparent;
