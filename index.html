@@ -615,7 +615,7 @@
         transform: rotate(90deg);
       }
 
-      /* MERIEM'S HERO SECTION STYLES */
+      /* HERO SECTION STYLES */
       .hero-section {
         min-height: 100vh;
         display: flex;
@@ -826,7 +826,7 @@
       }
 
       /* ============================================
-         FIXED HERO IMAGE - FULL IMAGE VISIBLE
+         FIXED HERO IMAGE - DESKTOP POSITIONING ONLY
          ============================================ */
 
       .hero-image-container {
@@ -841,8 +841,8 @@
       .home__img {
         position: relative;
         width: 100%;
-        max-width: 500px;
-        height: 500px;
+        max-width: 600px;
+        height: 600px;
         display: flex;
         justify-content: center;
         align-items: center;
@@ -858,11 +858,10 @@
         filter: drop-shadow(0 10px 30px rgba(138, 43, 226, 0.3));
         animation: blob-float 8s ease-in-out infinite;
         z-index: 1;
+        /* Desktop-only positioning - applied via media query below */
         top: 0;
         left: 0;
-        transform: scale(
-          1.2
-        ); /* Make blob larger to ensure full coverage behind */
+        transform: scale(1.2);
       }
 
       @keyframes blob-float {
@@ -881,6 +880,7 @@
       /* Photo container - positioned on top of blob */
       .home__blob-img-container {
         position: absolute;
+        /* Desktop-only positioning - applied via media query below */
         top: 0;
         left: 0;
         width: 100%;
@@ -888,7 +888,7 @@
         display: flex;
         justify-content: center;
         align-items: center;
-        z-index: 3; /* Higher than blob */
+        z-index: 3;
       }
 
       .home__blob-img {
@@ -940,7 +940,7 @@
           transparent 70%
         );
         filter: blur(20px);
-        z-index: 2; /* Between blob and image */
+        z-index: 2;
         animation: glow-pulse 3s ease-in-out infinite alternate;
       }
 
@@ -949,9 +949,9 @@
         position: absolute;
         width: 100%;
         height: 100%;
+        /* Desktop-only positioning - applied via media query below */
         top: 0;
-        left: 0;
-        z-index: 4; /* Highest z-index */
+        z-index: 4;
       }
 
       .floating-icon {
@@ -2286,23 +2286,47 @@
       }
 
       /* ============================================
-         PERFECT RESPONSIVE ENHANCEMENTS
+         DESKTOP-ONLY POSITIONING FOR HERO IMAGE
          ============================================ */
 
-      /* EXTRA SMALL PHONES (Below 320px) - PERFECT FIT */
+      /* Desktop (min-width: 1025px) */
+      @media (min-width: 1025px) {
+        .home__blob,
+        .home__blob-img-container,
+        .floating-icons {
+          top: -150px;
+        }
+
+        .hero-section {
+          padding-top: 180px; /* Slightly more padding to prevent navbar overlap */
+        }
+
+        /* Ensure the image container aligns properly with content */
+        .hero-image-container {
+          align-items: flex-start;
+          padding-top: 80px;
+        }
+      }
+
+      /* ============================================
+         RESPONSIVE ADJUSTMENTS FOR MOBILE/TABLET
+         ============================================ */
+
+      /* EXTRA SMALL PHONES (Below 320px) */
       @media (max-width: 319px) {
         html {
           font-size: 14px;
         }
 
         .hero-section {
-          padding: 80px 8px 20px !important;
+          padding: 120px 8px 20px !important;
           min-height: auto !important;
         }
 
         .hero-container {
           padding: 0 4px !important;
           gap: 20px !important;
+          flex-direction: column;
         }
 
         .hero-title {
@@ -2335,18 +2359,20 @@
 
         /* Perfectly Scaled Profile Image */
         .home__img {
-          height: 300px;
+          height: 250px;
+          max-width: 250px;
+          margin: 0 auto;
         }
 
         .home__blob-img {
-          width: 85%;
-          height: 85%;
+          width: 95%;
+          height: 95%;
         }
 
         .floating-icon {
-          width: 40px;
-          height: 40px;
-          font-size: 18px;
+          width: 30px;
+          height: 30px;
+          font-size: 14px;
         }
 
         /* Buttons - Perfect Fit */
@@ -2360,6 +2386,7 @@
         .hero-buttons {
           gap: 10px !important;
           margin-bottom: 25px !important;
+          flex-direction: column;
         }
 
         /* Hero Stats */
@@ -2825,7 +2852,7 @@
         }
       }
 
-      /* SMALL PHONES (320px - 424px) - EVERYTHING FITS PERFECTLY */
+      /* SMALL PHONES (320px - 424px) */
       @media (min-width: 320px) and (max-width: 424px) {
         html {
           font-size: 15px;
@@ -2839,6 +2866,7 @@
         .hero-container {
           padding: 0 8px !important;
           gap: 25px !important;
+          flex-direction: column;
         }
 
         .hero-title {
@@ -2892,17 +2920,19 @@
         /* Perfect Profile Image Sizing */
         .home__img {
           height: 300px;
+          max-width: 300px;
+          margin: 0 auto;
         }
 
         .home__blob-img {
-          width: 85%;
-          height: 85%;
+          width: 90%;
+          height: 80%;
         }
 
         .floating-icon {
-          width: 40px;
-          height: 40px;
-          font-size: 18px;
+          width: 35px;
+          height: 35px;
+          font-size: 16px;
         }
 
         /* Buttons - Perfect Fit */
@@ -2916,6 +2946,7 @@
         .hero-buttons {
           gap: 12px !important;
           margin-bottom: 30px !important;
+          flex-wrap: wrap;
         }
 
         /* Social Links */
@@ -3195,19 +3226,20 @@
         }
       }
 
-      /* MOBILE PHONES (425px - 599px) - CLEAN, READABLE LAYOUT */
+      /* MOBILE PHONES (425px - 599px) */
       @media (min-width: 425px) and (max-width: 599px) {
         html {
           font-size: 16px;
         }
 
         .hero-section {
-          padding: 95px 15px 35px !important;
+          padding: 125px 15px 35px !important;
         }
 
         .hero-container {
           padding: 0 12px !important;
           gap: 30px !important;
+          flex-direction: column;
         }
 
         .hero-title {
@@ -3251,6 +3283,8 @@
         /* Clean Profile Image Layout */
         .home__img {
           height: 300px;
+          max-width: 300px;
+          margin: 0 auto;
         }
 
         .home__blob-img {
@@ -3259,9 +3293,9 @@
         }
 
         .floating-icon {
-          width: 40px;
-          height: 40px;
-          font-size: 18px;
+          width: 35px;
+          height: 35px;
+          font-size: 16px;
         }
 
         /* Buttons - Clean Layout */
@@ -3274,6 +3308,7 @@
         .hero-buttons {
           gap: 15px !important;
           margin-bottom: 40px !important;
+          flex-wrap: wrap;
         }
 
         /* Social Links */
@@ -3517,20 +3552,32 @@
 
       /* SMALL TABLETS (600px - 767px) */
       @media (max-width: 767px) {
+        .hero-section {
+          padding: 130px 15px 35px !important;
+          min-height: auto;
+        }
+
         .hero-container {
           padding: 0 25px;
+          flex-direction: column;
+          gap: 40px;
         }
 
         .hero-title {
           font-size: 2.6rem;
+          text-align: center;
         }
 
         .hero-subtitle {
           font-size: 1.3rem;
+          text-align: center;
         }
 
         .hero-description {
           font-size: 1rem;
+          text-align: center;
+          margin-left: auto;
+          margin-right: auto;
         }
 
         /* Hero Stats */
@@ -3539,26 +3586,20 @@
           gap: 2rem;
         }
 
-        .hero-image-container {
-          height: 350px;
-        }
-
         .home__img {
           height: 350px;
-        }
-
-        .home__blob-img {
-          width: 90%;
-          height: 90%;
+          max-width: 350px;
+          margin: 0 auto;
         }
 
         .hero-buttons {
           flex-direction: column;
-          align-items: stretch;
+          align-items: center;
         }
 
         .cyber-button {
           width: 100%;
+          max-width: 300px;
           justify-content: center;
         }
 
@@ -3570,10 +3611,6 @@
         /* Navigation */
         .nav-links {
           display: none;
-        }
-
-        .mobile-menu-btn {
-          display: flex;
         }
 
         .mobile-menu-toggle {
@@ -3589,6 +3626,7 @@
           font-size: 2.2rem;
           flex-direction: column;
           gap: 10px;
+          text-align: center;
         }
 
         .title-number {
@@ -3655,7 +3693,7 @@
           gap: 15px;
         }
 
-        .floating-element {
+        .floating-icon {
           width: 45px;
           height: 45px;
           font-size: 18px;
@@ -3712,12 +3750,16 @@
         input,
         textarea,
         select {
-          font-size: 16px !important; /* Prevents iOS zoom */
+          font-size: 16px !important;
         }
       }
 
-      /* TABLETS (768px - 1024px) - PORTRAIT & LANDSCAPE */
+      /* TABLETS (768px - 1024px) */
       @media (max-width: 1024px) {
+        .hero-section {
+          padding: 140px 30px 60px !important;
+        }
+
         .hero-container {
           flex-direction: column;
           text-align: center;
@@ -3735,6 +3777,7 @@
           width: 100%;
           display: flex;
           justify-content: center;
+          margin-top: 0 !important;
         }
 
         .hero-title {
@@ -3760,6 +3803,7 @@
 
         .home__img {
           height: 400px;
+          max-width: 400px;
           margin: 0 auto;
         }
 
@@ -3833,8 +3877,12 @@
         }
       }
 
-      /* LARGE TABLETS & SMALL LAPTOPS (1025px - 1200px) */
-      @media (max-width: 1200px) {
+      /* LARGE TABLETS (1025px - 1200px) - Edge case where we want desktop layout */
+      @media (min-width: 1025px) and (max-width: 1200px) {
+        .hero-section {
+          padding: 160px 30px 60px !important;
+        }
+
         .hero-container {
           gap: 60px;
           padding: 0 40px;
@@ -3861,7 +3909,7 @@
       @media (max-height: 500px) and (orientation: landscape) {
         .hero-section {
           min-height: auto !important;
-          padding: 90px 15px 40px !important;
+          padding: 100px 15px 40px !important;
         }
 
         .hero-container {
@@ -3875,7 +3923,7 @@
         }
 
         .hero-image-container {
-          flex: 0 0 150px;
+          flex: 0 0 180px;
         }
 
         /* Hero Stats */
@@ -3883,8 +3931,9 @@
           display: none !important;
         }
 
-        .hero-image-container {
-          justify-content: center;
+        .home__img {
+          height: 200px;
+          max-width: 200px;
         }
 
         .hero-title {
@@ -3907,6 +3956,8 @@
 
         .cyber-button {
           min-width: 140px !important;
+          padding: 10px 15px !important;
+          font-size: 12px !important;
         }
 
         /* About Section Adjustments */
@@ -4087,7 +4138,7 @@
       <div class="hero-container">
         <div class="hero-content">
           <div class="hero-badge">
-            <span class="badge-text">MERN Stack Developer</span>
+            <span class="badge-text">Frontend Developer</span>
             <div class="badge-glow"></div>
           </div>
 
@@ -4180,7 +4231,7 @@
           </div>
         </div>
 
-        <!-- FIXED: Hero Image with Full Image Visible -->
+        <!-- FIXED: Hero Image with Proper Positioning -->
         <div class="hero-image-container">
           <div class="home__img">
             <!-- Blob shape in the background - BEHIND the image -->
@@ -4208,7 +4259,7 @@
             <!-- Your photo in the front - Full image visible -->
             <div class="home__blob-img-container">
               <img
-                src="./icon-img.png"
+                src="./icon (1).png"
                 alt="Abu Abdullah Mohammed Iqram"
                 class="home__blob-img"
               />
