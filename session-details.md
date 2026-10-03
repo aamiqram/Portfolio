@@ -51,7 +51,7 @@ Refine the portfolio into a hybrid: personal storytelling + stronger visual hier
 Executed comprehensive checks against http://localhost:4325:
 
 - Structure: 6 homepage sections maintained; doc height reduced after preview cap
-- Responsive (dark/light × 320/390/768/1024/1440 × routes /,/about,/projects,/contact): 40 renders, **0 failures** (no overflow, broken images, ellipsis, incorrect h1 counts, horizontal scroll). Decorated glows/SVG internals correctly excluded from overflow probes.
+- Responsive (dark/light â†’ 320/390/768/1024/1440 â†’ routes /,/about,/projects,/contact): 40 renders, **0 failures** (no overflow, broken images, ellipsis, incorrect h1 counts, horizontal scroll). Decorated glows/SVG internals correctly excluded from overflow probes.
 - Images: all project/profile images load (complete + naturalWidth>0) after scroll; homepage features load w=1920 at 1440 viewport, directory cards load w=750
 - Filters/Search (7 projects total): All 7, Web Applications 6, E-Commerce 3, Full-Stack 5, Android 1, Experiments 2; search "chef" ? 1; clearing ? 7. aria-pressed states correct.
 - Theme: toggle works; persists across hard reload (no seeding script)
@@ -77,20 +77,20 @@ pm run lint: clean (ESLint)
 pm run build: compiled successfully (Next.js 16.3.8), generated 23 pages
 
 ## Files Modified
-- src/app/page.tsx — use Profile instead of TechStrip
-- src/components/home/Hero.tsx — add name + POV line
-- src/components/home/Profile.tsx — **new** component (personal intro with portrait + primary stack)
-- src/components/home/FeaturedProjects.tsx — cap preview to 4, add "see other N" CTA
-- src/components/ui/Portrait.tsx — add optional sizes prop
-- src/components/projects/ProjectVisual.tsx — add optional sizes prop
-- src/components/projects/ProjectFeature.tsx — pass sizes="(min-width: 1024px) 92vw, 100vw"
-- src/components/projects/ProjectCard.tsx — pass sizes="(min-width: 768px) 46vw, 100vw"
-- src/components/docs/DocsShell.tsx — import and render ReadingProgress
+- src/app/page.tsx â€” use Profile instead of TechStrip
+- src/components/home/Hero.tsx â€” add name + POV line
+- src/components/home/Profile.tsx â€” **new** component (personal intro with portrait + primary stack)
+- src/components/home/FeaturedProjects.tsx â€” cap preview to 4, add "see other N" CTA
+- src/components/ui/Portrait.tsx â€” add optional sizes prop
+- src/components/projects/ProjectVisual.tsx â€” add optional sizes prop
+- src/components/projects/ProjectFeature.tsx â€” pass sizes="(min-width: 1024px) 92vw, 100vw"
+- src/components/projects/ProjectCard.tsx â€” pass sizes="(min-width: 768px) 46vw, 100vw"
+- src/components/docs/DocsShell.tsx â€” import and render ReadingProgress
 - Removed: src/components/home/TechStrip.tsx
 
 ## QA Artifacts (Temporary)
-- C:\Users\user\AppData\Local\Temp\opencode\qa\pass3\ — final screenshots
-- C:\Users\user\AppData\Local\Temp\opencode\qa\pass3.mjs, interact_core.mjs, ix*.mjs, etc. — validation scripts (can be discarded)
+- C:\Users\user\AppData\Local\Temp\opencode\qa\pass3\ â€” final screenshots
+- C:\Users\user\AppData\Local\Temp\opencode\qa\pass3.mjs, interact_core.mjs, ix*.mjs, etc. â€” validation scripts (can be discarded)
 
 ## Summary
 The homepage now reads more personally while keeping the original structure disciplined (section count unchanged). Image delivery is layout-aware and efficient. All responsive, accessibility, interaction, and build checks pass. No functional regressions introduced; behavior is preserved. Pixel-level review deferred to captured screenshots per constraints.
