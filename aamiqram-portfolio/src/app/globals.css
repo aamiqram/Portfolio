@@ -1,0 +1,686 @@
+@import "tailwindcss";
+
+@custom-variant dark (&:where([data-theme="dark"], [data-theme="dark"] *));
+
+:root {
+  --canvas: #ffffff;
+  --surface: #f7f8fa;
+  --surface-2: #eef1f5;
+  --surface-3: #e4e8ee;
+  --border: #dde1e8;
+  --border-strong: #a3abb8;
+  --fg: #14171c;
+  --fg-secondary: #454c56;
+  /* Tuned so muted text clears WCAG AA (4.5:1) against the tinted
+     surface-2 / surface-3 cards, not just against the white canvas. */
+  --fg-muted: #606770;
+  --accent: #c8102e;
+  --accent-hi: #e0234e;
+  /* Accent tuned for TEXT on light surfaces. Kept separate from --accent
+     because that value has to stay dark enough for white button labels
+     (5.88:1), while small accent text needs 4.78:1 against the tinted cards. */
+  --accent-text: #c8102e;
+  --accent-fg: #ffffff;
+  --accent-soft: #fdecee;
+  --info: #0a5bd3;
+  --success: #1a7f37;
+  --warning: #96690b;
+  --grid-line: rgb(20 23 28 / 0.045);
+  --elev-1: 0 1px 2px rgb(20 23 28 / 0.05), 0 2px 8px rgb(20 23 28 / 0.04);
+  --elev-2: 0 2px 4px rgb(20 23 28 / 0.04), 0 12px 32px rgb(20 23 28 / 0.07);
+  --elev-lift: 0 4px 8px rgb(20 23 28 / 0.05), 0 24px 56px rgb(20 23 28 / 0.09);
+  --ring: #0a5bd3;
+  --glass-bg: rgb(255 255 255 / 0.82);
+  --glass-bg-blur: rgb(255 255 255 / 0.62);
+  --glass-border: rgb(20 23 28 / 0.1);
+  --glass-blur: 14px;
+  --glow: rgb(192 16 46 / 0.1);
+}
+
+[data-theme="dark"] {
+  --canvas: #0b0d12;
+  --surface: #12151c;
+  --surface-2: #191d26;
+  --surface-3: #21262f;
+  --border: #303642;
+  --border-strong: #4a525f;
+  --fg: #f4f6fa;
+  --fg-secondary: #a8b0bf;
+  /* Tuned so muted text clears WCAG AA (4.5:1) against the tinted
+     surface-2 / surface-3 cards, not just against the canvas. */
+  --fg-muted: #868f9e;
+  --accent: #e0234e;
+  --accent-hi: #fb7185;
+  /* Dark-theme accent as TEXT. #e0234e is a fill colour — white labels on it
+     sit at 4.65:1, so it cannot be lightened without breaking the buttons.
+     Small accent text on the dark canvas needs 4.87:1, which this clears.
+     Borders, icons and fills deliberately keep using --accent: they are
+     non-text, only need 3:1, and stay on-brand. */
+  --accent-text: #f2607c;
+  --accent-fg: #ffffff;
+  --accent-soft: rgb(224 35 78 / 0.13);
+  --info: #58a6ff;
+  --success: #3fb950;
+  --warning: #d29922;
+  --grid-line: rgb(244 246 250 / 0.04);
+  --elev-1: 0 1px 2px rgb(0 0 0 / 0.5), 0 2px 8px rgb(0 0 0 / 0.35);
+  --elev-2: 0 2px 6px rgb(0 0 0 / 0.45), 0 14px 36px rgb(0 0 0 / 0.4);
+  --elev-lift: 0 6px 12px rgb(0 0 0 / 0.5), 0 28px 64px rgb(0 0 0 / 0.5);
+  --ring: #58a6ff;
+  --glass-bg: rgb(18 21 28 / 0.78);
+  --glass-bg-blur: rgb(18 21 28 / 0.55);
+  --glass-border: rgb(244 246 250 / 0.09);
+  --glass-blur: 14px;
+  --glow: rgb(224 35 78 / 0.16);
+}
+
+@theme inline {
+  --breakpoint-docs: 75rem;
+
+  --color-canvas: var(--canvas);
+  --color-surface: var(--surface);
+  --color-surface-2: var(--surface-2);
+  --color-surface-3: var(--surface-3);
+  --color-line: var(--border);
+  --color-line-strong: var(--border-strong);
+  --color-fg: var(--fg);
+  --color-fg-secondary: var(--fg-secondary);
+  --color-fg-muted: var(--fg-muted);
+  --color-accent: var(--accent);
+  --color-accent-hi: var(--accent-hi);
+  --color-accent-text: var(--accent-text);
+  --color-accent-fg: var(--accent-fg);
+  --color-accent-soft: var(--accent-soft);
+  --color-info: var(--info);
+  --color-success: var(--success);
+  --color-warning: var(--warning);
+  --color-glass: var(--glass-bg);
+  --color-glass-line: var(--glass-border);
+
+  --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+  --font-mono: var(--font-mono-face), ui-monospace, SFMono-Regular, Menlo, monospace;
+
+  --text-display: 3.25rem;
+  --text-display--line-height: 1.05;
+  --text-display--letter-spacing: -0.03em;
+  --text-display--font-weight: 700;
+
+  --spacing-gutter: 1.5rem;
+
+  /*
+   * Motion language. Retuning the defaults here brings every existing
+   * `transition-*` utility into the same duration and easing, so hover states
+   * across the site cannot drift apart.
+   */
+  --default-transition-duration: 180ms;
+  --default-transition-timing-function: cubic-bezier(0.22, 1, 0.36, 1);
+
+  --ease-expo: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-smooth: cubic-bezier(0.4, 0, 0.2, 1);
+
+  /*
+   * Elevation is stored under `--elev-*` and mapped into Tailwind's shadow
+   * namespace here. Mapping `--shadow-1: var(--shadow-1)` would declare a
+   * variable in terms of itself, which resolves to nothing and silently drops
+   * every shadow. `inline` keeps the reference, so each theme's own value is
+   * used where the utility is applied.
+   */
+  --shadow-1: var(--elev-1);
+  --shadow-2: var(--elev-2);
+  --shadow-lift: var(--elev-lift);
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    scroll-padding-top: 5.5rem;
+    -webkit-text-size-adjust: 100%;
+  }
+
+  body {
+    background-color: var(--canvas);
+    color: var(--fg);
+    font-family: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+    overflow-wrap: break-word;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    text-wrap: balance;
+    color: var(--fg);
+  }
+
+  p {
+    text-wrap: pretty;
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--ring);
+    outline-offset: 2px;
+    border-radius: 3px;
+  }
+
+  ::selection {
+    background-color: var(--accent);
+    color: var(--accent-fg);
+  }
+
+  [hidden] {
+    display: none !important;
+  }
+
+  /* Never let a decorative element swallow a pointer event. */
+  svg {
+    shape-rendering: geometricPrecision;
+  }
+}
+
+@layer components {
+  /*
+   * Glass is opt-in and deliberately limited to four places: the sticky header
+   * once it has scrolled, the hero layers panel, floating technical labels, and
+   * the reading progress bar. Content surfaces stay solid.
+   *
+   * The opaque background is the baseline. Blur is only added where the browser
+   * supports it, so text contrast never depends on a filter being available.
+   */
+  .glass {
+    background-color: var(--glass-bg);
+    border: 1px solid var(--glass-border);
+  }
+
+  /*
+   * Bottom-edge variant, used by the sticky header.
+   *
+   * The bar already declares `border-b`, so it only needs that one edge
+   * recoloured. Letting the full `border` shorthand from `.glass` apply here
+   * added a top edge the moment the page scrolled, growing the bar by 1px and
+   * nudging the page content down — a layout shift on the first scroll.
+   */
+  .glass-bottom {
+    background-color: var(--glass-bg);
+    border-bottom: 1px solid var(--glass-border);
+  }
+
+  @supports ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+    .glass,
+    .glass-bottom {
+      background-color: var(--glass-bg-blur);
+      -webkit-backdrop-filter: blur(var(--glass-blur)) saturate(150%);
+      backdrop-filter: blur(var(--glass-blur)) saturate(150%);
+    }
+  }
+
+  /* Restrained crimson field behind the hero geometry. */
+  .glow-crimson {
+    background:
+      radial-gradient(
+        52% 46% at 72% 34%,
+        var(--glow) 0%,
+        transparent 72%
+      ),
+      radial-gradient(
+        38% 34% at 18% 78%,
+        color-mix(in srgb, var(--glow) 55%, transparent) 0%,
+        transparent 70%
+      );
+  }
+
+  /* Fine engineering grid used as a page backdrop. */
+  .bg-grid {
+    background-image:
+      linear-gradient(to right, var(--grid-line) 1px, transparent 1px),
+      linear-gradient(to bottom, var(--grid-line) 1px, transparent 1px);
+    background-size: 56px 56px;
+  }
+
+  .bg-grid-fade {
+    -webkit-mask-image: radial-gradient(ellipse 80% 60% at 50% 0%, #000 30%, transparent 100%);
+    mask-image: radial-gradient(ellipse 80% 60% at 50% 0%, #000 30%, transparent 100%);
+  }
+
+  /* Monospace metadata label. */
+  .label {
+    font-family: var(--font-mono-face), ui-monospace, SFMono-Regular, Menlo, monospace;
+    font-size: 0.6875rem;
+    line-height: 1rem;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+  }
+
+  .card {
+    background-color: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 0.75rem;
+    box-shadow: var(--elev-1);
+  }
+
+  .hairline {
+    border-color: var(--border);
+  }
+
+  /*
+   * The hero diagram draws itself once and then holds still. Rings and ticks
+   * share a keyframe and rely on `stroke-dasharray` being set inline to the
+   * circle's own circumference, so there is nothing to hard-code per shape.
+   * `geo-row` lifts the panel rows in by a few pixels as a matching entrance.
+   *
+   * Nothing here loops. The only repeating motion on the page is the core
+   * marker's opacity pulse below, which reads as alive rather than spinning.
+   */
+  .geo-ring {
+    animation: geo-draw 900ms var(--ease-expo, cubic-bezier(0.22, 1, 0.36, 1)) both;
+    animation-delay: var(--geo-delay, 0ms);
+  }
+
+  /* Short radial ticks have no meaningful length to draw along, so they fade. */
+  .geo-tick {
+    animation: geo-fade-in 700ms var(--ease-expo, cubic-bezier(0.22, 1, 0.36, 1)) both;
+    animation-delay: var(--geo-delay, 0ms);
+  }
+
+  .geo-row {
+    animation: enter-rise 420ms var(--ease-expo, cubic-bezier(0.22, 1, 0.36, 1)) both;
+    animation-delay: var(--geo-delay, 0ms);
+  }
+
+  .geo-pulse {
+    animation: geo-pulse 5s ease-in-out infinite;
+  }
+
+  /* Paused while the tab is hidden, and by the reduced-motion block below. */
+  [data-motion-paused="true"] .geo-pulse {
+    animation-play-state: paused;
+  }
+
+  /* Long-form documentation body copy. */
+  .prose-docs {
+    color: var(--fg-secondary);
+    font-size: 1rem;
+    line-height: 1.75;
+  }
+
+  .prose-docs > * + * {
+    margin-top: 1.25rem;
+  }
+
+  /*
+   * Reading measure, applied to running text only.
+   *
+   * The article column is `max-w-3xl` (768px), which at 16px worked out to
+   * roughly 92 characters per line - past the point where the eye reliably
+   * finds the start of the next line on the return sweep. Capping prose at
+   * 68ch brings that to about 72 characters.
+   *
+   * Deliberately scoped to text-level children rather than the container, so
+   * code blocks, tables, and schematics keep the full column width that the
+   * technical layout depends on.
+   */
+  .prose-docs > p,
+  .prose-docs > ul,
+  .prose-docs > ol,
+  .prose-docs > blockquote {
+    max-width: 68ch;
+  }
+
+  .prose-docs h2 {
+    font-size: 1.5rem;
+    line-height: 1.3;
+    font-weight: 650;
+    letter-spacing: -0.02em;
+    color: var(--fg);
+    margin-top: 3rem;
+    padding-top: 0.25rem;
+    scroll-margin-top: 6rem;
+  }
+
+  .prose-docs h3 {
+    font-size: 1.125rem;
+    line-height: 1.4;
+    font-weight: 650;
+    letter-spacing: -0.01em;
+    color: var(--fg);
+    margin-top: 2.25rem;
+    scroll-margin-top: 6rem;
+  }
+
+  .prose-docs h2 > a,
+  .prose-docs h3 > a {
+    color: inherit;
+    text-decoration: none;
+  }
+
+  .prose-docs h2 > a:hover,
+  .prose-docs h3 > a:hover {
+    color: var(--accent);
+    text-decoration: underline;
+    text-underline-offset: 4px;
+  }
+
+  .prose-docs a {
+    color: var(--info);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+    text-decoration-thickness: 1px;
+  }
+
+  .prose-docs a:hover {
+    text-decoration-thickness: 2px;
+  }
+
+  .prose-docs strong {
+    color: var(--fg);
+    font-weight: 600;
+  }
+
+  .prose-docs ul,
+  .prose-docs ol {
+    padding-left: 1.25rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .prose-docs ul > li {
+    list-style: none;
+    position: relative;
+  }
+
+  .prose-docs ul > li::before {
+    content: "";
+    position: absolute;
+    left: -1rem;
+    top: 0.7em;
+    width: 5px;
+    height: 5px;
+    border-radius: 1px;
+    background-color: var(--accent);
+  }
+
+  .prose-docs ol {
+    list-style: decimal;
+  }
+
+  .prose-docs ol::marker {
+    color: var(--fg-muted);
+    font-family: var(--font-mono-face), ui-monospace, monospace;
+    font-size: 0.85em;
+  }
+
+  .prose-docs code {
+    font-family: var(--font-mono-face), ui-monospace, SFMono-Regular, Menlo, monospace;
+    font-size: 0.875em;
+    background-color: var(--surface-2);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 0.1em 0.35em;
+    color: var(--fg);
+    white-space: nowrap;
+  }
+
+  /*
+   * Inline code wraps; code inside <pre> deliberately keeps scrolling.
+   *
+   * Long inline snippets — `"Pay safely with bKash, Nagad, cards, or cash"` —
+   * are nowrap by default, so their min-content width (430px) forced the
+   * surrounding list item past a 390px viewport and pushed the whole document
+   * into horizontal scroll. `:not(pre) >` keeps the block-level behaviour
+   * intact.
+   */
+  .prose-docs :not(pre) > code {
+    white-space: pre-wrap;
+    overflow-wrap: anywhere;
+  }
+
+  .prose-docs blockquote {
+    border-left: 3px solid var(--accent);
+    padding-left: 1rem;
+    font-style: normal;
+    color: var(--fg);
+  }
+
+  /* Syntax tokens produced by lib/highlight.ts */
+  .tok-comment {
+    color: var(--fg-muted);
+    font-style: italic;
+  }
+  .tok-string {
+    color: #a5d6ff;
+  }
+  .tok-number {
+    color: #f0b27a;
+  }
+  .tok-keyword {
+    color: #ff7b9c;
+  }
+  .tok-type {
+    color: #7ee2b8;
+  }
+  .tok-fn {
+    color: #79c0ff;
+  }
+  .tok-prop {
+    color: #d2a8ff;
+  }
+  .tok-punct {
+    color: var(--fg-muted);
+  }
+  .tok-tag {
+    color: #ff7b9c;
+  }
+  .tok-attr {
+    color: #79c0ff;
+  }
+  .tok-var {
+    color: #ffa657;
+  }
+  .tok-flag {
+    color: #79c0ff;
+  }
+
+  [data-theme="light"] .tok-string {
+    color: #0a3069;
+  }
+  [data-theme="light"] .tok-number {
+    color: #953800;
+  }
+  [data-theme="light"] .tok-keyword {
+    color: #cf222e;
+  }
+  [data-theme="light"] .tok-type {
+    color: #0f766e;
+  }
+  [data-theme="light"] .tok-fn {
+    color: #0969da;
+  }
+  [data-theme="light"] .tok-prop {
+    color: #6f3fbf;
+  }
+  [data-theme="light"] .tok-punct {
+    color: #545c66;
+  }
+  [data-theme="light"] .tok-tag {
+    color: #cf222e;
+  }
+  [data-theme="light"] .tok-attr {
+    color: #0969da;
+  }
+  [data-theme="light"] .tok-var {
+    /* Darkened from #bc4c00, which measured 4.44:1 on the code surface and so
+       missed AA for this 11px token. #b04600 keeps the same hue at 5.0:1. */
+    color: #b04600;
+  }
+  [data-theme="light"] .tok-flag {
+    color: #0969da;
+  }
+}
+
+/*
+ * Type scale.
+ *
+ * These were previously repeated as `text-2xl sm:text-3xl` and friends in
+ * every section, which is exactly how a design system quietly stops being one.
+ * Four named steps, each `clamp()`-ed so they scale continuously between a
+ * 320px phone and a wide desktop without breakpoint-specific overrides.
+ *
+ * `heading-*` are component classes on purpose: they set size, leading, tracking
+ * and weight together, because those four properties only look right as a set.
+ */
+@layer components {
+  .heading-hero {
+    font-size: clamp(2.5rem, 1.55rem + 4.3vw, 4.25rem);
+    line-height: 1.05;
+    letter-spacing: -0.03em;
+    font-weight: 700;
+  }
+
+  /* Page-level `h1`. */
+  .heading-page {
+    font-size: clamp(2rem, 1.5rem + 2.2vw, 3.25rem);
+    line-height: 1.1;
+    letter-spacing: -0.025em;
+    font-weight: 700;
+  }
+
+  /* Section-level `h2`. */
+  .heading-section {
+    font-size: clamp(1.65rem, 1.22rem + 1.9vw, 2.6rem);
+    line-height: 1.15;
+    letter-spacing: -0.02em;
+    font-weight: 700;
+  }
+
+  /* Card and article titles. */
+  .heading-subsection {
+    font-size: clamp(1.1rem, 1.02rem + 0.42vw, 1.35rem);
+    line-height: 1.3;
+    letter-spacing: -0.012em;
+    font-weight: 600;
+  }
+
+  /*
+   * Reading measures. Long-form prose is capped in `ch` so the line length is
+   * governed by the font's own character width rather than by whichever
+   * container the copy happens to sit in.
+   */
+  .measure {
+    max-width: 68ch;
+  }
+
+  .measure-narrow {
+    max-width: 52ch;
+  }
+}
+
+@layer utilities {
+  .scrollbar-none {
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
+  .scrollbar-none::-webkit-scrollbar {
+    display: none;
+  }
+
+  .no-horizontal-overflow {
+    overflow-x: hidden;
+  }
+
+  /* Content that arrives with a short fade and rise, then stops entirely. */
+  .enter-rise {
+    animation: enter-rise 460ms var(--ease-expo, cubic-bezier(0.22, 1, 0.36, 1)) both;
+  }
+
+  /* Press feedback that does not fight the browser's own active painting. */
+  .press {
+    transition: transform 120ms cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  .press:active {
+    transform: translateY(1px) scale(0.985);
+  }
+}
+
+/*
+ * Each ring passes its own circumference in via `--geo-circumference`, so one
+ * keyframe can draw circles of any radius without hard-coding a number here.
+ */
+@keyframes geo-draw {
+  from {
+    stroke-dashoffset: var(--geo-circumference);
+  }
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+@keyframes geo-fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/*
+ * Deliberately animates opacity between these values rather than from 0, so the
+ * marker is always visible. An element that pulses through invisible is a
+ * content-availability problem, not decoration.
+ */
+@keyframes geo-pulse {
+  0%,
+  100% {
+    opacity: 0.55;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+
+@keyframes enter-rise {
+  from {
+    opacity: 0;
+    transform: translate3d(0, 12px, 0);
+  }
+  to {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  /*
+   * Ambient geometry is switched off outright rather than merely shortened: a
+   * five second pulse that is "slow" is still motion. Entrances resolve
+   * instantly so nothing is ever hidden behind an animation.
+   */
+  .geo-pulse {
+    animation: none !important;
+  }
+
+  .enter-rise,
+  .geo-ring,
+  .geo-row {
+    animation: none !important;
+  }
+
+  .geo-tick {
+    animation: none !important;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

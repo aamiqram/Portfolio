@@ -1,0 +1,61 @@
+import type { IconType } from "react-icons";
+import {
+  SiAndroid,
+  SiCloudinary,
+  SiCss,
+  SiExpress,
+  SiFirebase,
+  SiGithub,
+  SiGit,
+  SiHtml5,
+  SiJavascript,
+  SiKotlin,
+  SiMongodb,
+  SiNextdotjs,
+  SiNodedotjs,
+  SiPostgresql,
+  SiPrisma,
+  SiReact,
+  SiReactrouter,
+  SiSocketdotio,
+  SiStripe,
+  SiTailwindcss,
+  SiTanstack,
+  SiTypescript,
+  SiVercel,
+  SiVite,
+  SiZod,
+} from "react-icons/si";
+import type { TechKey } from "@/content/tech";
+
+/**
+ * Brand marks from the Simple Icons set. Anything without a mark in the set is
+ * rendered as a text chip rather than an invented logo.
+ */
+export const TECH_ICONS: Partial<Record<TechKey, IconType>> = {
+  react: SiReact,
+  nextjs: SiNextdotjs,
+  javascript: SiJavascript,
+  typescript: SiTypescript,
+  tailwind: SiTailwindcss,
+  html5: SiHtml5,
+  css: SiCss,
+  node: SiNodedotjs,
+  express: SiExpress,
+  socketio: SiSocketdotio,
+  postgresql: SiPostgresql,
+  mongodb: SiMongodb,
+  prisma: SiPrisma,
+  zod: SiZod,
+  firebase: SiFirebase,
+  stripe: SiStripe,
+  cloudinary: SiCloudinary,
+  vite: SiVite,
+  git: SiGit,
+  github: SiGithub,
+  vercel: SiVercel,
+  kotlin: SiKotlin,
+  android: SiAndroid,
+  tanstack: SiTanstack,
+  reactrouter: SiReactrouter,
+};
