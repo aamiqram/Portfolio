@@ -364,3 +364,65 @@ deletions and the untracked aamiqram-portfolio/ directory are unchanged.
 - Build configuration required for Vercel: Root Directory `aamiqram-portfolio`; Framework Preset Next.js; install command detected from `package-lock.json` (npm); build command `npm run build` / Next.js default `next build`; leave Output Directory unset for Next.js. `next.config.ts` has no custom export/output setting. A fresh local production build passed in Pass 6D, but account-level Vercel configuration cannot be confirmed here.
 - Rechecked `npx --no-install vercel whoami`: no saved credentials; OpenID discovery failed TLS certificate verification. No TLS bypass, link, commit, push, or deployment was performed. Existing Vercel repository, production branch, Root Directory, and domain assignment remain unverified.
 - This audit made no application changes. This handoff entry is the only intentional file update; existing root deletions remain unstaged and preserved.
+
+## Pass 7 - Repository Restructure and Production Release (2026-10-04)
+
+### Outcome
+- The portfolio is live and verified at `https://portfolio-aami.vercel.app/`.
+- The application now lives at the repository root instead of a nested subdirectory. The folder itself is still named `C:\Projects\AAMI\PORTFOLIO`; renaming it to `aamiqram-portfolio` was attempted and abandoned (see "Known Outstanding").
+- `main` is clean and in sync with `origin/main` at `0a27e84`. No uncommitted changes remain.
+
+### Repository Restructure
+- The Next.js application was moved up from `aamiqram-portfolio/` to the repository root. All 17 top-level entries (`src/`, `public/`, `node_modules/`, `.next/`, `package.json`, `package-lock.json`, `next.config.ts`, `eslint.config.mjs`, `postcss.config.mjs`, `tsconfig.json`, `.gitignore`, `next-env.d.ts`, `tsconfig.tsbuildinfo`, `AGENTS.md`, `CLAUDE.md`, `README.md`, `session-details.md`) were relocated, then the empty subdirectory was removed.
+- Git recorded this as **84 pure renames with 0 insertions, 0 deletions, and 0 modifications** — a pure relocation, not a rewrite. Content of every file is byte-identical.
+- The repo-root `.gitignore` patterns (`/node_modules`, `/.next/`, `/out/`, `/build`, `/coverage`, `/.pnp`) are now root-relative rather than scoped to a subdirectory. This is correct for the new layout.
+- `next.config.ts` remains empty (standard Next.js build, no static export). `package.json` has no `engines` block and no `vercel` block.
+- The nested `.kilo/worktrees/pricey-harbor` worktree was left registered and valid. Its `.git` pointer referenced `C:/Projects/AAMI/PORTFOLIO/.git/worktrees/pricey-harbor`; because the parent folder was never actually renamed, no `git worktree repair` was needed.
+
+### Three Independent Bugs Blocking the Release
+All three had to be fixed. Each produced a different symptom, and only the third was visible in any log.
+
+1. **Vercel Deployment Protection was enabled.** Every production deployment was behind a Vercel login wall. `https://portfolio-<hash>-abu-abdullah-md-iqrams-projects.vercel.app/projects/unity-shop` returned HTTP 200 but served Vercel's own login page (`<title>Login - Vercel`, `og:title=Protected Deployment - Vercel`). Disabled by the owner via Vercel → Settings → Deployment Protection → Vercel Authentication → Disabled.
+   - Diagnostic trap worth remembering: that login page also loads `/_next/static/`-style Vercel chunk assets, so a naive "does the HTML reference Next.js assets" check reports a false positive. Always assert on page-specific text (`Unity Shop`, `Architecture`) or a real `<title>`, never on asset paths alone.
+
+2. **Framework detection failure — the deployment shipped static assets only.** The Vercel deployment summary read `No framework detected` with 7 Static Assets (the `public/images` files) and zero Functions. Result: `GET /images/iqram-profile.png` returned HTTP 200 (1,781,750 bytes) while `/`, `/projects`, and `/projects/unity-shop` all returned `X-Vercel-Error: NOT_FOUND` on every assigned domain. The build itself was healthy — 23 routes prerendered — so this was purely a deploy-time configuration problem, not a code problem.
+   - Root cause was visible in the dashboard banner on Settings → Build and Deployment: "Configuration Settings in the current Production deployment differ from your current Project Settings", with the mismatch deployment named. Project Settings were already correct (Framework Preset Next.js, Root Directory `./`) but the serving deployment had been built without them.
+   - Fixed by redeploying so a fresh Production deployment was built using the corrected settings. The rebuild reported `Next.js (16.3.8)`, 43 Static Assets (HTML 2, JS 15, CSS 1, Image 9, Font 13, Misc 3) and **21 Functions**. No repository change was required.
+
+3. **Invalid UTF-8 in `session-details.md` broke the GitHub Pages build.** The legacy `pages-build-deployment` Jekyll workflow failed with `Error reading file /github/workspace/session-details.md: invalid byte sequence in UTF-8` and `The source text contains invalid characters for the used encoding UTF-8` raised from `kramdown-parser-gfm`.
+   - Scan of all tracked `.md` files found exactly **13 invalid bytes, all in this file**: 11 × `0x97` and 2 × `0xD7`. These are Windows-1252 artifacts (`0x97` is em dash, `0xD7` is multiplication sign in CP1252) written where the intended characters were `—` (U+2014 em dash) and `→` (U+2192 arrow).
+   - `AGENTS.md`, `CLAUDE.md`, and `README.md` were already valid UTF-8 and were not touched.
+   - Fixed by rewriting only the 13 verified-invalid byte offsets. Blind replacement was deliberately avoided because `0x97` and `0xD7` are also legal continuation and lead bytes inside valid multi-byte UTF-8 sequences. Result: file grew 34,440 → 34,466 bytes (+26, i.e. 13 characters × 2 additional bytes), valid UTF-8, no BOM, 0 remaining invalid bytes, 11 em dashes and 2 arrows confirmed by codepoint count. `npm run lint` and `npx tsc --noEmit` both still pass, and `src/` has zero references to this file.
+
+### Commits Pushed This Pass
+- `967882f` "Add Next.js portfolio" — 84 added files, 16,050 insertions, 0 deletions. The initial publication of the nested application.
+- `aab9138` "Refactor code structure for improved readability and maintainability" — **not authored by this agent.** Appeared on local `main` and was pushed. Deleted all 10 repository-root files (the legacy `index.html` and its 9 assets). Reflog confirms only that it was committed locally and pushed; the actor is unknown. It was left in place, not reverted.
+- `2506c25` "Move Next.js app to repository root" — 84 files changed, 0 insertions, 0 deletions, all renames at 100% similarity.
+- `0a27e84` "Fix invalid UTF-8 encoding in session-details.md" — 1 file changed, 12 insertions, 12 deletions.
+
+### Verified Production State
+- Vercel project `portfolio` under scope `abu-abdullah-md-iqrams-projects`. Git integration on `aamiqram/Portfolio`, production branch `main`, Root Directory `./`, Framework Next.js 16.3.8, Node 24.x, Deployment Protection disabled.
+- Final deployment `AhUwjp1m4`, status Ready, 35s build, Production, from `0a27e84`.
+- Assigned domains, all serving the same content: `portfolio-aami.vercel.app`, `portfolio-git-main-abu-abdullah-md-iqrams-projects.vercel.app`, and the per-deployment host.
+- HTTP 200 confirmed on `/`, `/projects`, `/projects/unity-shop`, `/projects/your-iyanat`, `/about`, `/contact`, `/engineering`, `/tech-stack`, `/sitemap.xml`, `/robots.txt`.
+- Content assertions on `/projects/unity-shop`: `Unity Shop`, `Architecture`, `route handlers`, `TypeScript`, `AAMIQRAM` all present; `<h1>Unity Shop</h1>`; homepage `<title>` is `AAMIQRAM - Frontend Developer`; the legacy site's testimonial section is absent, confirming the new app and not the old one. Sitemap contains 18 URLs on `portfolio-aami.vercel.app`.
+
+### GitHub Pages Status
+- The Jekyll workflow is now **green** (run #14 for `0a27e84`: `build`, `deploy`, and `report-build-status` all success) purely because of the encoding fix.
+- It is green but **useless and misleading**: `https://aamiqram.github.io/Portfolio/` returns 200 with 7,622 bytes titled `AAMIQRAM - portfolio | Portfolio`, which is Jekyll rendering `README.md`, `AGENTS.md`, `CLAUDE.md`, and this file. It is not the Next.js application and never can be — the dynamic workflow has no Next.js build step.
+- Pages remains **enabled**. Disabling it requires dashboard access that this agent does not have. Owner action: GitHub → `aamiqram/Portfolio` → Settings → Pages → Source → None.
+- Do not add a `working-directory` to this workflow, do not redirect Jekyll into any subfolder, and do not add a GitHub Pages build for the Next.js app. Vercel is the intended host.
+
+### Known Outstanding
+- **GitHub Pages still enabled** — owner action required as above.
+- **Folder rename skipped.** `C:\Projects\AAMI\PORTFOLIO` → `C:\Projects\AAMI\aamiqram-portfolio` could not be performed because the Codex runtime `node.exe` processes hold the directory as their working directory and Windows refuses the rename. Cosmetic only: Git and Vercel are unaffected. If attempted later, close the editor and all agent sessions first, and note that `git worktree repair` will be required because `.kilo/worktrees/pricey-harbor/.git` stores the absolute path `gitdir: C:/Projects/AAMI/PORTFOLIO/.git/worktrees/pricey-harbor`.
+- **Tooling still unauthenticated:** no `gh` CLI, no `GH_TOKEN`, no `VERCEL_TOKEN`, no `.vercel` directory. GitHub Actions logs return 403 to unauthenticated requests. No TLS verification was bypassed at any point. All dashboard-dependent configuration was verified by reading owner-pasted output, never by direct API access.
+- `C:\Projects\AAMI\bp\index.html` was never read into, modified, or committed at any point; it remains 171,356 bytes. The legacy site also survives in Git history at `f711467` and `967882f`, and as `C:\Projects\AAMI\PORTFOLIO\.kilo\worktrees\pricey-harbor\index.html` (171,370 bytes, a registered linked worktree at detached HEAD `f711467`).
+
+### Next Session: UI/UX and Design Improvements
+- Planned direction, stated by the owner: UI/UX improvements plus design improvements.
+- Baseline before any visual change: `npm run build` exits 0 with 23 static routes on Next.js 16.3.8, `npm run lint` exits 0, `npx tsc --noEmit` exits 0.
+- No visual or design change has been made in Pass 7. This pass was purely structural, encoding, and deployment work.
+- Note that both preview servers were stopped during the restructure and have not been restarted. Run `npm run dev`, or `npm run build && npm run start` for a production-accurate preview, from the repository root.
+- Every visual change must be re-verified at 1440, 1240, 1200, 1199, 1024, 768, 390, and 320px. The 1199/1200px pair is the docs breakpoint: at 1199px the table-of-contents rail is hidden and the Contents drawer is shown; at 1200px and above the rail is shown and the drawer is hidden. Guard that boundary.
+- Commit policy for the next pass: present changes and evidence first, and do not commit, push, or deploy without explicit owner approval. A Vercel redeploy is triggered automatically by any push to `main`, so treat pushing as a deployment action.
